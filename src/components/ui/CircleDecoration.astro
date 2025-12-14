@@ -1,0 +1,44 @@
+---
+/**
+ * CircleDecoration - Soft circular decorative element
+ * Used for background accents
+ */
+interface Props {
+  class?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  color?: 'cream' | 'pink' | 'white';
+  opacity?: number;
+}
+
+const { class: className = '', size = 'lg', color = 'cream', opacity = 0.5 } = Astro.props;
+
+const sizeMap = {
+  sm: 'w-24 h-24',
+  md: 'w-40 h-40',
+  lg: 'w-64 h-64',
+  xl: 'w-96 h-96'
+};
+
+const colorMap = {
+  cream: 'bg-[#F5ECD7]',
+  pink: 'bg-accent-pink',
+  white: 'bg-white'
+};
+---
+
+<div
+  class:list={[
+    'circle-decoration rounded-full',
+    sizeMap[size],
+    colorMap[color],
+    className
+  ]}
+  style={`opacity: ${opacity}`}
+  aria-hidden="true"
+></div>
+
+<style>
+  .circle-decoration {
+    flex-shrink: 0;
+  }
+</style>

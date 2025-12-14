@@ -1,25 +1,41 @@
 ---
 import Logo from '@/components/icons/Logo.astro';
+
+interface Props {
+  activePage?: 'home' | 'about' | 'experience' | 'work' | 'contact';
+}
+
+const { activePage = 'home' } = Astro.props;
+
+const navItems = [
+  { id: 'about', label: 'About', href: '/about' },
+  { id: 'experience', label: 'Experience', href: '/experience' },
+  { id: 'work', label: 'Work', href: '/work' }
+];
 ---
 
 <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-transform duration-300">
   <nav class="flex items-center justify-between px-8 lg:px-12 py-6 max-w-[1440px] mx-auto">
     <!-- Logo -->
-    <a href="/" class="logo flex-shrink-0" aria-label="Home">
+    <a href="/home" class="logo flex-shrink-0" aria-label="Home">
       <Logo size={40} />
     </a>
 
     <!-- Navigation Links -->
-    <div class="hidden md:flex items-center gap-16 lg:gap-20">
-      <a href="#about" class="nav-link text-brand-dark text-[17px] font-sans transition-colors duration-300">
-        About
-      </a>
-      <a href="#experience" class="nav-link text-brand-dark text-[17px] font-sans transition-colors duration-300">
-        Experience
-      </a>
-      <a href="#work" class="nav-link text-brand-dark text-[17px] font-sans transition-colors duration-300">
-        Work
-      </a>
+    <div class="hidden md:flex items-center gap-8 lg:gap-12">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            'nav-link relative text-brand-dark text-[17px] font-sans transition-all duration-300 px-5 py-2 rounded-full',
+            activePage === item.id && 'nav-link-active'
+          ]}
+          aria-current={activePage === item.id ? 'page' : undefined}
+          data-nav-id={item.id}
+        >
+          {item.label}
+        </a>
+      ))}
     </div>
 
     <!-- CTA Button -->
@@ -49,9 +65,17 @@ import Logo from '@/components/icons/Logo.astro';
     class="fixed inset-0 bg-slide-pink z-40 translate-x-full transition-transform duration-300 md:hidden"
   >
     <div class="flex flex-col items-center justify-center h-full gap-8">
-      <a href="#about" class="mobile-nav-link text-brand-dark text-2xl font-sans">About</a>
-      <a href="#experience" class="mobile-nav-link text-brand-dark text-2xl font-sans">Experience</a>
-      <a href="#work" class="mobile-nav-link text-brand-dark text-2xl font-sans">Work</a>
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            'mobile-nav-link text-brand-dark text-2xl font-sans px-6 py-2 rounded-full transition-colors duration-300',
+            activePage === item.id && 'mobile-nav-link-active'
+          ]}
+        >
+          {item.label}
+        </a>
+      ))}
       <a
         href="#contact"
         class="mobile-cta-button mt-4 px-8 py-3 rounded-full text-brand-dark text-xl font-sans transition-colors duration-300 bg-accent-pink"
@@ -107,8 +131,24 @@ import Logo from '@/components/icons/Logo.astro';
       mobileCta.classList.add(accentColor);
     }
 
-    // Update CSS variable for nav link hover color
-    document.documentElement.style.setProperty('--nav-hover-color', accentColorMap[accentColor] || accentColorMap['bg-accent-pink']);
+    // Update CSS variables for nav link hover and active colors
+    const colorValue = accentColorMap[accentColor] || accentColorMap['bg-accent-pink'];
+    document.documentElement.style.setProperty('--nav-hover-color', colorValue);
+    document.documentElement.style.setProperty('--nav-active-bg', colorValue);
+
+    // Update active nav link background class
+    const activeNavLink = document.querySelector('.nav-link-active') as HTMLElement;
+    const activeMobileNavLink = document.querySelector('.mobile-nav-link-active') as HTMLElement;
+
+    if (activeNavLink) {
+      allAccentColors.forEach(color => activeNavLink.classList.remove(color));
+      activeNavLink.classList.add(accentColor);
+    }
+
+    if (activeMobileNavLink) {
+      allAccentColors.forEach(color => activeMobileNavLink.classList.remove(color));
+      activeMobileNavLink.classList.add(accentColor);
+    }
   }) as EventListener);
 
   // Hide header on scroll down, show on scroll up
@@ -181,10 +221,21 @@ import Logo from '@/components/icons/Logo.astro';
   /* Default nav hover color */
   :root {
     --nav-hover-color: var(--color-accent-pink);
+    --nav-active-bg: var(--color-accent-pink);
   }
 
   /* Nav link hover effect with dynamic accent color */
-  .nav-link:hover {
+  .nav-link:hover:not(.nav-link-active) {
     color: var(--nav-hover-color);
+  }
+
+  /* Active nav link with pill background */
+  .nav-link-active {
+    background-color: var(--nav-active-bg);
+  }
+
+  /* Mobile active link */
+  .mobile-nav-link-active {
+    background-color: var(--nav-active-bg);
   }
 </style>

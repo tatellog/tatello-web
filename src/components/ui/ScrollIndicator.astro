@@ -1,0 +1,39 @@
+---
+/**
+ * ScrollIndicator - "SCROLL DOWN" text indicator
+ * Encourages users to scroll for more content
+ */
+interface Props {
+  class?: string;
+  text?: string;
+}
+
+const { class: className = '', text = 'SCROLL DOWN' } = Astro.props;
+---
+
+<div class:list={['scroll-indicator flex flex-col items-center gap-2', className]}>
+  <span class="text-brand-dark/50 text-[13px] font-sans tracking-[1px] uppercase">
+    {text}
+  </span>
+</div>
+
+<style>
+  .scroll-indicator {
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(8px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-indicator {
+      animation: none;
+    }
+  }
+</style>

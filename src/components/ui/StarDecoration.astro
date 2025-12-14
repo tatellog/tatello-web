@@ -1,0 +1,41 @@
+---
+/**
+ * StarDecoration - 4-pointed star decorative element
+ * Used for visual accents throughout the site
+ */
+interface Props {
+  class?: string;
+  size?: 'sm' | 'md' | 'lg';
+  color?: 'pink' | 'blue' | 'orange' | 'beige';
+}
+
+const { class: className = '', size = 'md', color = 'pink' } = Astro.props;
+
+const sizeMap = {
+  sm: 'w-4 h-4',
+  md: 'w-8 h-8',
+  lg: 'w-12 h-12'
+};
+
+const colorMap = {
+  pink: 'text-accent-pink',
+  blue: 'text-accent-blue',
+  orange: 'text-accent-orange',
+  beige: 'text-slide-beige'
+};
+---
+
+<svg
+  class:list={['star-decoration', sizeMap[size], colorMap[color], className]}
+  viewBox="0 0 24 24"
+  fill="currentColor"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" />
+</svg>
+
+<style>
+  .star-decoration {
+    flex-shrink: 0;
+  }
+</style>
