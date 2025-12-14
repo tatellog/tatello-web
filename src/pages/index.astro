@@ -1,0 +1,265 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout title="Tu Nombre | Desarrollador">
+  <!-- Cursor follower -->
+  <div id="cursor" class="pointer-events-none fixed z-50 h-6 w-6 rounded-full bg-primary-500/50 mix-blend-screen blur-sm"></div>
+
+  <!-- Hero Section -->
+  <section class="relative flex min-h-screen items-center justify-center overflow-hidden px-6">
+    <!-- Background gradient -->
+    <div class="absolute inset-0 bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950"></div>
+
+    <!-- Animated background circles -->
+    <div class="absolute inset-0 overflow-hidden">
+      <div id="circle1" class="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-primary-500/10 blur-3xl"></div>
+      <div id="circle2" class="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-purple-500/10 blur-3xl"></div>
+    </div>
+
+    <div class="relative z-10 text-center">
+      <p id="greeting" class="mb-4 font-mono text-sm text-primary-400 opacity-0">Hola, soy</p>
+      <h1 id="name" class="mb-6 font-display text-5xl font-bold tracking-tight text-white opacity-0 md:text-7xl lg:text-8xl">
+        Tu Nombre
+      </h1>
+      <p id="role" class="mb-8 text-xl text-zinc-400 opacity-0 md:text-2xl">
+        Desarrollador <span class="text-primary-400">Full Stack</span>
+      </p>
+      <div id="cta" class="flex flex-col items-center gap-4 opacity-0 sm:flex-row sm:justify-center">
+        <a
+          href="#proyectos"
+          class="group relative overflow-hidden rounded-full bg-primary-500 px-8 py-3 font-medium text-white transition-all hover:bg-primary-600"
+        >
+          <span class="relative z-10">Ver proyectos</span>
+        </a>
+        <a
+          href="#contacto"
+          class="rounded-full border border-zinc-700 px-8 py-3 font-medium text-zinc-300 transition-all hover:border-primary-500 hover:text-white"
+        >
+          Contacto
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div id="scroll-indicator" class="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0">
+      <div class="flex flex-col items-center gap-2">
+        <span class="text-xs text-zinc-500">Scroll</span>
+        <div class="h-10 w-6 rounded-full border-2 border-zinc-700 p-1">
+          <div id="scroll-dot" class="h-2 w-2 rounded-full bg-primary-500"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="sobre-mi" class="relative px-6 py-24 md:py-32">
+    <div class="mx-auto max-w-4xl">
+      <h2 class="section-title mb-12 font-display text-3xl font-bold text-white md:text-4xl">
+        Sobre mí
+      </h2>
+      <div class="section-content space-y-6 text-lg text-zinc-400">
+        <p>
+          Soy un desarrollador apasionado por crear experiencias digitales únicas.
+          Me especializo en construir aplicaciones web modernas con tecnologías de vanguardia.
+        </p>
+        <p>
+          Cuando no estoy programando, puedes encontrarme explorando nuevas tecnologías,
+          contribuyendo a proyectos open source o tomando café.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="habilidades" class="relative bg-zinc-900/50 px-6 py-24 md:py-32">
+    <div class="mx-auto max-w-4xl">
+      <h2 class="section-title mb-12 font-display text-3xl font-bold text-white md:text-4xl">
+        Habilidades
+      </h2>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {['JavaScript', 'TypeScript', 'React', 'Node.js', 'Python', 'Astro'].map((skill) => (
+          <div class="skill-card group rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 transition-all hover:border-primary-500/50 hover:bg-zinc-800/50">
+            <span class="text-lg font-medium text-white">{skill}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="proyectos" class="relative px-6 py-24 md:py-32">
+    <div class="mx-auto max-w-4xl">
+      <h2 class="section-title mb-12 font-display text-3xl font-bold text-white md:text-4xl">
+        Proyectos
+      </h2>
+      <div class="grid gap-8 md:grid-cols-2">
+        {[
+          { title: 'Proyecto 1', desc: 'Descripción breve del proyecto' },
+          { title: 'Proyecto 2', desc: 'Descripción breve del proyecto' },
+          { title: 'Proyecto 3', desc: 'Descripción breve del proyecto' },
+          { title: 'Proyecto 4', desc: 'Descripción breve del proyecto' },
+        ].map((project) => (
+          <div class="project-card group relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 transition-all hover:border-primary-500/50">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-500/10 to-transparent opacity-0 transition-opacity group-hover:opacity-100"></div>
+            <div class="relative">
+              <h3 class="mb-2 text-xl font-semibold text-white">{project.title}</h3>
+              <p class="text-zinc-400">{project.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contacto" class="relative bg-zinc-900/50 px-6 py-24 md:py-32">
+    <div class="mx-auto max-w-4xl text-center">
+      <h2 class="section-title mb-6 font-display text-3xl font-bold text-white md:text-4xl">
+        Contacto
+      </h2>
+      <p class="section-content mb-8 text-lg text-zinc-400">
+        ¿Tienes un proyecto en mente? ¡Hablemos!
+      </p>
+      <a
+        href="mailto:tu@email.com"
+        class="contact-btn inline-block rounded-full bg-primary-500 px-8 py-3 font-medium text-white transition-all hover:bg-primary-600"
+      >
+        Enviar mensaje
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-zinc-800 px-6 py-8">
+    <div class="mx-auto flex max-w-4xl flex-col items-center justify-between gap-4 sm:flex-row">
+      <p class="text-sm text-zinc-500">© 2024 Tu Nombre. Todos los derechos reservados.</p>
+      <div class="flex gap-6">
+        <a href="https://github.com" class="text-zinc-500 transition-colors hover:text-white">GitHub</a>
+        <a href="https://linkedin.com" class="text-zinc-500 transition-colors hover:text-white">LinkedIn</a>
+        <a href="https://twitter.com" class="text-zinc-500 transition-colors hover:text-white">Twitter</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero animations timeline
+  const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+  heroTl
+    .to('#greeting', { opacity: 1, y: 0, duration: 0.6 })
+    .to('#name', { opacity: 1, y: 0, duration: 0.8 }, '-=0.3')
+    .to('#role', { opacity: 1, y: 0, duration: 0.6 }, '-=0.4')
+    .to('#cta', { opacity: 1, y: 0, duration: 0.6 }, '-=0.3')
+    .to('#scroll-indicator', { opacity: 1, duration: 0.6 }, '-=0.2');
+
+  // Scroll dot animation
+  gsap.to('#scroll-dot', {
+    y: 16,
+    duration: 1,
+    repeat: -1,
+    yoyo: true,
+    ease: 'power1.inOut',
+  });
+
+  // Background circles animation
+  gsap.to('#circle1', {
+    x: 50,
+    y: 30,
+    duration: 8,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut',
+  });
+
+  gsap.to('#circle2', {
+    x: -50,
+    y: -30,
+    duration: 10,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut',
+  });
+
+  // Cursor follower
+  const cursor = document.getElementById('cursor');
+  if (cursor) {
+    document.addEventListener('mousemove', (e) => {
+      gsap.to(cursor, {
+        x: e.clientX - 12,
+        y: e.clientY - 12,
+        duration: 0.3,
+        ease: 'power2.out',
+      });
+    });
+  }
+
+  // Section animations with ScrollTrigger
+  gsap.utils.toArray('.section-title').forEach((title) => {
+    gsap.from(title as Element, {
+      scrollTrigger: {
+        trigger: title as Element,
+        start: 'top 80%',
+        toggleActions: 'play none none reverse',
+      },
+      opacity: 0,
+      x: -50,
+      duration: 0.8,
+    });
+  });
+
+  gsap.utils.toArray('.section-content').forEach((content) => {
+    gsap.from(content as Element, {
+      scrollTrigger: {
+        trigger: content as Element,
+        start: 'top 80%',
+        toggleActions: 'play none none reverse',
+      },
+      opacity: 0,
+      y: 30,
+      duration: 0.8,
+    });
+  });
+
+  // Skill cards stagger animation
+  gsap.from('.skill-card', {
+    scrollTrigger: {
+      trigger: '#habilidades',
+      start: 'top 70%',
+    },
+    opacity: 0,
+    y: 50,
+    stagger: 0.1,
+    duration: 0.6,
+  });
+
+  // Project cards stagger animation
+  gsap.from('.project-card', {
+    scrollTrigger: {
+      trigger: '#proyectos',
+      start: 'top 70%',
+    },
+    opacity: 0,
+    scale: 0.9,
+    stagger: 0.15,
+    duration: 0.6,
+  });
+
+  // Contact button animation
+  gsap.from('.contact-btn', {
+    scrollTrigger: {
+      trigger: '#contacto',
+      start: 'top 70%',
+    },
+    opacity: 0,
+    scale: 0.8,
+    duration: 0.6,
+    delay: 0.3,
+  });
+</script>
