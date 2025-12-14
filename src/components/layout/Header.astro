@@ -1,35 +1,23 @@
 ---
-interface Props {
-  variant?: 'pink' | 'orange';
-}
-
-const { variant = 'pink' } = Astro.props;
-
-const accentColor = variant === 'pink' ? 'bg-slide-pink-accent' : 'bg-slide-orange-accent';
+import Logo from '@/components/icons/Logo.astro';
 ---
 
 <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-transform duration-300">
   <nav class="flex items-center justify-between px-8 lg:px-12 py-6 max-w-[1440px] mx-auto">
     <!-- Logo -->
     <a href="/" class="logo flex-shrink-0" aria-label="Home">
-      <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="17.5" cy="17.5" r="16" fill="#1d1d1e"/>
-        <ellipse cx="12" cy="14" rx="2" ry="2.5" fill="white"/>
-        <ellipse cx="23" cy="14" rx="2" ry="2.5" fill="white"/>
-        <path d="M11 22 C14 26, 21 26, 24 22" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <rect x="10" y="4" width="15" height="6" rx="2" fill="#feb25e"/>
-      </svg>
+      <Logo size={40} />
     </a>
 
     <!-- Navigation Links -->
     <div class="hidden md:flex items-center gap-16 lg:gap-20">
-      <a href="#about" class="nav-link text-brand-dark text-[17px] font-sans hover:opacity-70 transition-opacity">
+      <a href="#about" class="nav-link text-brand-dark text-[17px] font-sans transition-colors duration-300">
         About
       </a>
-      <a href="#experience" class="nav-link text-brand-dark text-[17px] font-sans hover:opacity-70 transition-opacity">
+      <a href="#experience" class="nav-link text-brand-dark text-[17px] font-sans transition-colors duration-300">
         Experience
       </a>
-      <a href="#work" class="nav-link text-brand-dark text-[17px] font-sans hover:opacity-70 transition-opacity">
+      <a href="#work" class="nav-link text-brand-dark text-[17px] font-sans transition-colors duration-300">
         Work
       </a>
     </div>
@@ -37,10 +25,7 @@ const accentColor = variant === 'pink' ? 'bg-slide-pink-accent' : 'bg-slide-oran
     <!-- CTA Button -->
     <a
       href="#contact"
-      class:list={[
-        'cta-button hidden md:flex items-center justify-center px-5 py-2 rounded-full text-brand-dark text-[17px] font-sans transition-all hover:scale-105',
-        accentColor
-      ]}
+      class="cta-button hidden md:flex items-center justify-center px-5 py-2 rounded-full text-brand-dark text-[17px] font-sans transition-all duration-300 hover:scale-105 bg-accent-pink"
     >
       Reach Out!
     </a>
@@ -69,10 +54,7 @@ const accentColor = variant === 'pink' ? 'bg-slide-pink-accent' : 'bg-slide-oran
       <a href="#work" class="mobile-nav-link text-brand-dark text-2xl font-sans">Work</a>
       <a
         href="#contact"
-        class:list={[
-          'mt-4 px-8 py-3 rounded-full text-brand-dark text-xl font-sans',
-          accentColor
-        ]}
+        class="mobile-cta-button mt-4 px-8 py-3 rounded-full text-brand-dark text-xl font-sans transition-colors duration-300 bg-accent-pink"
       >
         Reach Out!
       </a>
@@ -89,8 +71,45 @@ const accentColor = variant === 'pink' ? 'bg-slide-pink-accent' : 'bg-slide-oran
   const header = document.getElementById('header');
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
+  const ctaButton = document.querySelector('.cta-button') as HTMLElement;
+  const mobileCta = document.querySelector('.mobile-cta-button') as HTMLElement;
+  const navLinks = document.querySelectorAll('.nav-link');
   let lastScrollY = 0;
   let isMenuOpen = false;
+
+  // All accent color classes
+  const allAccentColors = ['bg-accent-pink', 'bg-accent-blue', 'bg-accent-yellow', 'bg-accent-orange'];
+
+  // Map accent colors to CSS variable values for hover
+  const accentColorMap: Record<string, string> = {
+    'bg-accent-pink': 'var(--color-accent-pink)',
+    'bg-accent-blue': 'var(--color-accent-blue)',
+    'bg-accent-yellow': 'var(--color-accent-yellow)',
+    'bg-accent-orange': 'var(--color-accent-orange)'
+  };
+
+  let currentAccentColor = 'bg-accent-pink';
+
+  // Listen for slide change events from HeroSlider
+  window.addEventListener('slideChange', ((event: CustomEvent) => {
+    const { accentColor } = event.detail;
+    currentAccentColor = accentColor;
+
+    // Update CTA button color
+    if (ctaButton) {
+      allAccentColors.forEach(color => ctaButton.classList.remove(color));
+      ctaButton.classList.add(accentColor);
+    }
+
+    // Update mobile CTA button color
+    if (mobileCta) {
+      allAccentColors.forEach(color => mobileCta.classList.remove(color));
+      mobileCta.classList.add(accentColor);
+    }
+
+    // Update CSS variable for nav link hover color
+    document.documentElement.style.setProperty('--nav-hover-color', accentColorMap[accentColor] || accentColorMap['bg-accent-pink']);
+  }) as EventListener);
 
   // Hide header on scroll down, show on scroll up
   ScrollTrigger.create({
@@ -157,3 +176,15 @@ const accentColor = variant === 'pink' ? 'bg-slide-pink-accent' : 'bg-slide-oran
     });
   });
 </script>
+
+<style>
+  /* Default nav hover color */
+  :root {
+    --nav-hover-color: var(--color-accent-pink);
+  }
+
+  /* Nav link hover effect with dynamic accent color */
+  .nav-link:hover {
+    color: var(--nav-hover-color);
+  }
+</style>

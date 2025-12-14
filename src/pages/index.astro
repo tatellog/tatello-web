@@ -1,12 +1,17 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import Header from '@/components/layout/Header.astro';
-import HeroSlider from '@/components/sections/HeroSlider.astro';
+/**
+ * Index Page - Redirects to Home
+ */
 ---
-
-<Layout title="Tania Tello | Sr. Front End Engineer">
-  <Header variant="pink" />
-  <main>
-    <HeroSlider email="hello@taniatello.com" />
-  </main>
-</Layout>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0;url=/home">
+  <link rel="canonical" href="/home">
+  <title>Redirecting...</title>
+</head>
+<body>
+  <p>Redirecting to <a href="/home">home</a>...</p>
+</body>
+</html>

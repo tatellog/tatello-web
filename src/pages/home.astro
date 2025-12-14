@@ -1,0 +1,57 @@
+---
+/**
+ * Home Page - Main landing page
+ * Features the HeroSlider with animated slides
+ */
+import Layout from '@/layouts/Layout.astro';
+import Header from '@/components/layout/Header.astro';
+import HeroSlider from '@/components/sections/HeroSlider.astro';
+
+const pageTitle = 'Sr. Front End Engineer';
+const pageDescription = 'Tania Tello - Sr. Front End Engineer with 7+ years of experience specializing in React, TypeScript, and building beautiful, accessible web experiences.';
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <!-- Header Navigation -->
+  <Header />
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- Hero Section with Slider -->
+    <section id="hero" aria-label="Introduction">
+      <HeroSlider
+        email="hello@taniatello.com"
+        autoPlayInterval={6000}
+      />
+    </section>
+
+    <!-- Future sections will go here -->
+    <!-- <section id="about">...</section> -->
+    <!-- <section id="experience">...</section> -->
+    <!-- <section id="work">...</section> -->
+    <!-- <section id="contact">...</section> -->
+  </main>
+
+  <!-- Skip to content link for accessibility -->
+  <a
+    href="#main-content"
+    class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent-pink focus:text-brand-brown focus:rounded-lg"
+  >
+    Skip to main content
+  </a>
+</Layout>
+
+<style>
+  /* Screen reader only utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+</style>

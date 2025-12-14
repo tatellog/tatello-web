@@ -40,7 +40,7 @@ export const heroSlides: HeroBannerData[] = [
     index: 2,
     label: 'Mentor',
     bgColor: 'bg-slide-beige',
-    accentColor: 'bg-accent-purple',
+    accentColor: 'bg-accent-yellow',
     titleLines: ['Technology', 'Mentor'],
     subtitle:
       'One of my motivations for technology is to encourage and mentor women to learn about various technological disciplines, given the need for more women in the sector.',

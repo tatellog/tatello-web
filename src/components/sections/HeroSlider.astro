@@ -186,6 +186,11 @@ const { email = 'hello@taniatello.com', autoPlayInterval = 6000 } = Astro.props;
       progressBar.classList.add(accentColors[index]);
     }
 
+    // Dispatch custom event for header color sync
+    window.dispatchEvent(new CustomEvent('slideChange', {
+      detail: { accentColor: accentColors[index] }
+    }));
+
     // Restart progress animation
     if (isAutoPlaying) {
       startProgressAnimation();
@@ -349,6 +354,11 @@ const { email = 'hello@taniatello.com', autoPlayInterval = 6000 } = Astro.props;
         slideElement.setAttribute('data-active', 'false');
       }
     });
+
+    // Dispatch initial slide color for header sync
+    window.dispatchEvent(new CustomEvent('slideChange', {
+      detail: { accentColor: accentColors[0] }
+    }));
 
     // Start autoplay
     if (!prefersReducedMotion) {
