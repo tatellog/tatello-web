@@ -16,12 +16,10 @@ const navItems = [
 
 <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-transform duration-300">
   <nav class="flex items-center justify-between px-8 lg:px-12 py-6 max-w-[1440px] mx-auto">
-    <!-- Logo -->
     <a href="/home" class="logo flex-shrink-0" aria-label="Home">
       <Logo size={40} />
     </a>
 
-    <!-- Navigation Links -->
     <div class="hidden md:flex items-center gap-8 lg:gap-12">
       {navItems.map((item) => (
         <a
@@ -38,7 +36,6 @@ const navItems = [
       ))}
     </div>
 
-    <!-- CTA Button -->
     <a
       href="#contact"
       class="cta-button hidden md:flex items-center justify-center px-5 py-2 rounded-full text-brand-dark text-[17px] font-sans transition-all duration-300 hover:scale-105 bg-accent-pink"
@@ -46,7 +43,6 @@ const navItems = [
       Reach Out!
     </a>
 
-    <!-- Mobile Menu Button -->
     <button
       id="mobile-menu-btn"
       class="md:hidden flex flex-col gap-1.5 p-2"
@@ -59,7 +55,6 @@ const navItems = [
     </button>
   </nav>
 
-  <!-- Mobile Menu -->
   <div
     id="mobile-menu"
     class="fixed inset-0 bg-slide-pink z-40 translate-x-full transition-transform duration-300 md:hidden"
@@ -101,10 +96,8 @@ const navItems = [
   let lastScrollY = 0;
   let isMenuOpen = false;
 
-  // All accent color classes
   const allAccentColors = ['bg-accent-pink', 'bg-accent-blue', 'bg-accent-yellow', 'bg-accent-orange'];
 
-  // Map accent colors to CSS variable values for hover
   const accentColorMap: Record<string, string> = {
     'bg-accent-pink': 'var(--color-accent-pink)',
     'bg-accent-blue': 'var(--color-accent-blue)',
@@ -114,29 +107,24 @@ const navItems = [
 
   let currentAccentColor = 'bg-accent-pink';
 
-  // Listen for slide change events from HeroSlider
   window.addEventListener('slideChange', ((event: CustomEvent) => {
     const { accentColor } = event.detail;
     currentAccentColor = accentColor;
 
-    // Update CTA button color
     if (ctaButton) {
       allAccentColors.forEach(color => ctaButton.classList.remove(color));
       ctaButton.classList.add(accentColor);
     }
 
-    // Update mobile CTA button color
     if (mobileCta) {
       allAccentColors.forEach(color => mobileCta.classList.remove(color));
       mobileCta.classList.add(accentColor);
     }
 
-    // Update CSS variables for nav link hover and active colors
     const colorValue = accentColorMap[accentColor] || accentColorMap['bg-accent-pink'];
     document.documentElement.style.setProperty('--nav-hover-color', colorValue);
     document.documentElement.style.setProperty('--nav-active-bg', colorValue);
 
-    // Update active nav link background class
     const activeNavLink = document.querySelector('.nav-link-active') as HTMLElement;
     const activeMobileNavLink = document.querySelector('.mobile-nav-link-active') as HTMLElement;
 
@@ -151,7 +139,6 @@ const navItems = [
     }
   }) as EventListener);
 
-  // Hide header on scroll down, show on scroll up
   ScrollTrigger.create({
     start: 'top -100',
     onUpdate: (self) => {
@@ -161,10 +148,8 @@ const navItems = [
       const direction = self.direction;
 
       if (direction === 1 && scrollY > 100 && !isMenuOpen) {
-        // Scrolling down
         gsap.to(header, { y: -100, duration: 0.3, ease: 'power2.out' });
       } else if (direction === -1) {
-        // Scrolling up
         gsap.to(header, { y: 0, duration: 0.3, ease: 'power2.out' });
       }
 
@@ -172,7 +157,6 @@ const navItems = [
     }
   });
 
-  // Mobile menu toggle
   mobileMenuBtn?.addEventListener('click', () => {
     isMenuOpen = !isMenuOpen;
     const spans = mobileMenuBtn.querySelectorAll('span');
@@ -184,7 +168,6 @@ const navItems = [
       gsap.to(spans[1], { opacity: 0, duration: 0.3 });
       gsap.to(spans[2], { rotation: -45, y: -6, duration: 0.3 });
 
-      // Stagger in mobile links
       gsap.from('.mobile-nav-link', {
         opacity: 0,
         x: 50,
@@ -202,7 +185,6 @@ const navItems = [
     }
   });
 
-  // Close mobile menu on link click
   document.querySelectorAll('.mobile-nav-link').forEach(link => {
     link.addEventListener('click', () => {
       isMenuOpen = false;
@@ -218,23 +200,19 @@ const navItems = [
 </script>
 
 <style>
-  /* Default nav hover color */
   :root {
     --nav-hover-color: var(--color-accent-pink);
     --nav-active-bg: var(--color-accent-pink);
   }
 
-  /* Nav link hover effect with dynamic accent color */
   .nav-link:hover:not(.nav-link-active) {
     color: var(--nav-hover-color);
   }
 
-  /* Active nav link with pill background */
   .nav-link-active {
     background-color: var(--nav-active-bg);
   }
 
-  /* Mobile active link */
   .mobile-nav-link-active {
     background-color: var(--nav-active-bg);
   }

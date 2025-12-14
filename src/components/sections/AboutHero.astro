@@ -1,8 +1,4 @@
 ---
-/**
- * AboutHero - Hero section for the About page
- * Features the penguin waving, title, and decorative elements
- */
 import PenguinWaving from '@/components/icons/PenguinWaving.astro';
 import StarDecoration from '@/components/ui/StarDecoration.astro';
 import CircleDecoration from '@/components/ui/CircleDecoration.astro';
@@ -24,9 +20,8 @@ const {
   class="about-hero relative w-full min-h-screen overflow-hidden flex flex-col items-center justify-center"
   style="background-color: #FADCDE;"
 >
-  <!-- Decorative circles - corners -->
   <CircleDecoration
-    class="absolute -bottom-20 -left-20 lg:-bottom-16 lg:-left-16 !w-[300px] !h-[300px] lg:!w-[450px] lg:!h-[450px]"
+    class="absolute -bottom-[100px] -left-[150px] lg:-bottom-[150px] lg:-left-[200px] !w-[450px] !h-[450px] lg:!w-[650px] lg:!h-[650px]"
     size="xl"
     color="cream"
     opacity={0.7}
@@ -44,45 +39,31 @@ const {
     opacity={0.6}
   />
 
-  <!-- Decorative stars - left side -->
-  <div class="absolute left-[5%] lg:left-[10%] top-[30%] lg:top-[35%] flex flex-col items-center gap-3">
+  <div class="absolute left-[15%] lg:left-[20%] top-[25%] lg:top-[30%]">
+    <StarDecoration size="sm" color="pink" class="star-float absolute -top-8 left-4" />
     <StarDecoration size="lg" color="pink" class="star-float" />
-    <div class="flex gap-3 -ml-4">
-      <StarDecoration size="sm" color="pink" class="star-float-delay" />
-      <StarDecoration size="md" color="pink" class="star-float" />
-    </div>
-    <StarDecoration size="sm" color="pink" class="star-float-delay -ml-8 -mt-1" />
+    <StarDecoration size="md" color="pink" class="star-float-delay absolute top-6 left-10" />
+    <StarDecoration size="md" color="pink" class="star-float absolute top-14 -left-2" />
+    <StarDecoration size="sm" color="pink" class="star-float-delay absolute top-20 left-8" />
   </div>
 
-  <!-- Decorative stars - right side -->
-  <div class="absolute right-[5%] lg:right-[10%] bottom-[25%] lg:bottom-[30%] flex flex-col items-center gap-3">
-    <StarDecoration size="sm" color="pink" class="star-float -mr-6" />
-    <div class="flex gap-3 mr-2">
-      <StarDecoration size="md" color="pink" class="star-float-delay" />
-      <StarDecoration size="sm" color="pink" class="star-float" />
-    </div>
-    <StarDecoration size="lg" color="pink" class="star-float -mr-4" />
-  </div>
-
-  <!-- Main content -->
-  <div class="relative z-10 flex flex-col items-center text-center px-4 pt-28 lg:pt-36 pb-32 w-full">
-    <!-- Title -->
-    <h1 class="hero-title font-display font-normal text-brand-brown text-5xl md:text-7xl lg:text-[100px] xl:text-[120px] leading-none tracking-normal mb-8 lg:mb-12">
+  <div class="relative z-10 flex flex-col items-center pt-8 lg:pt-12 pb-32 w-full overflow-hidden">
+    <h1
+      class="hero-title text-brand-brown text-center whitespace-nowrap mb-16 lg:mb-24 translate-x-[40%] md:translate-x-[55%] lg:translate-x-[70%]"
+      style="font-family: 'Stacion', serif; font-weight: 400; font-size: clamp(48px, 10vw, 120px); line-height: 25px; letter-spacing: 0px;"
+    >
       {title}
     </h1>
 
-    <!-- Penguin -->
     <div class="penguin-container">
       <PenguinWaving width={333} height={248} class="w-[280px] h-auto md:w-[333px]" />
     </div>
   </div>
 
-  <!-- Scroll indicator -->
   <div class="absolute bottom-28 left-1/2 -translate-x-1/2 z-10">
     <ScrollIndicator />
   </div>
 
-  <!-- Section label (visible at bottom left) -->
   <div class="absolute bottom-0 left-0 overflow-hidden pointer-events-none">
     <span class="section-label text-[#F2C7CA] text-[5rem] md:text-[8rem] lg:text-[12rem] xl:text-[14rem] font-display font-bold leading-none select-none translate-y-[40%] block pl-4 lg:pl-8" aria-hidden="true">
       {sectionLabel}
@@ -99,7 +80,6 @@ const {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!prefersReducedMotion) {
-    // Initial animations on load
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
     tl.from('.hero-title', {
@@ -125,7 +105,17 @@ const {
       duration: 1
     }, '-=0.5');
 
-    // Parallax effect on scroll
+    gsap.to('.hero-title', {
+      scrollTrigger: {
+        trigger: '#about-hero',
+        start: 'top top',
+        end: 'center top',
+        scrub: 1
+      },
+      x: 0,
+      ease: 'none'
+    });
+
     gsap.to('.section-label', {
       scrollTrigger: {
         trigger: '#about-hero',
@@ -137,7 +127,6 @@ const {
       ease: 'none'
     });
 
-    // Fade out hero on scroll
     gsap.to('.hero-title, .penguin-container', {
       scrollTrigger: {
         trigger: '#about-hero',

@@ -1,8 +1,4 @@
 ---
-/**
- * Base Layout - Main layout wrapper for all pages
- * Includes global styles, meta tags, and common structure
- */
 import '@/styles/global.css';
 
 interface Props {
@@ -29,34 +25,28 @@ const fullTitle = title.includes(siteTitle) ? title : `${title} | ${siteTitle}`;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- SEO Meta Tags -->
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Tania Tello" />
     <link rel="canonical" href={canonicalURL} />
 
-    <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <!-- Preload Fonts -->
     <link rel="preload" href="/fonts/Stacion-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/GTPlanar-Regular.woff2" as="font" type="font/woff2" crossorigin />
 
-    <!-- Theme Color -->
     <meta name="theme-color" content="#f7ebec" />
   </head>
   <body class="min-h-screen bg-slide-pink antialiased">

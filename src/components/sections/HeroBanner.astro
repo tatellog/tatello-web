@@ -1,8 +1,4 @@
 ---
-/**
- * HeroBanner - Dynamic hero slide component
- * Each slide has a specific layout matching the Figma design
- */
 import type { HeroBannerData } from '@/types';
 import Python from '@/components/icons/Python.astro';
 import ReactLogo from '@/components/icons/ReactLogo.astro';
@@ -16,7 +12,6 @@ interface Props {
 
 const { data, isActive = false } = Astro.props;
 
-// Tech logos for skills slide
 const techLogos = [
   { src: '/images/tech/redux.svg', alt: 'Redux', class: 'top-[120px] left-[35%] w-[50px]' },
   { src: '/images/tech/react.svg', alt: 'React', class: 'top-[100px] left-[50%] w-[60px]' },
@@ -41,10 +36,8 @@ const techLogos = [
   data-slide={data.index}
   data-active={isActive ? 'true' : 'false'}
 >
-  {/* ===== INTRO SLIDE ===== */}
   {data.id === 'intro' && (
     <>
-      {/* Sparkles near title */}
       <div class="sparkles-container absolute top-[35%] left-[15%] md:left-[20%] lg:left-[25%] pointer-events-none">
         <svg class="decoration-sparkle w-16 h-16 md:w-20 md:h-20 absolute -top-4 -left-4" viewBox="0 0 100 100" fill="none">
           <path d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z" fill="#ffc4c8"/>
@@ -57,28 +50,23 @@ const techLogos = [
         </svg>
       </div>
 
-      {/* Python Logo */}
       <div class="decoration-icon absolute bottom-[20%] left-[10%] md:left-[15%] pointer-events-none hidden md:block">
         <Python size={120} color="#ffc4c8" strokeWidth={2} class="w-[100px] md:w-[130px]" />
       </div>
 
-      {/* React Logo - rotating animation */}
       <div class="decoration-icon react-spin absolute top-[38%] right-[18%] md:right-[22%] lg:right-[28%] pointer-events-none hidden lg:block" data-icon="ReactLogo">
         <ReactLogo size={100} class="w-[80px] h-[70px] md:w-[100px] md:h-[88px]" />
       </div>
     </>
   )}
 
-  {/* ===== ROLE SLIDE ===== */}
   {data.id === 'role' && (
     <>
-      {/* React Logo - centered above title */}
       <div class="absolute top-[15%] md:top-[12%] left-1/2 -translate-x-1/2 flex items-center gap-4 md:gap-6 pointer-events-none">
         <svg class="decoration-sparkle w-6 h-6 hidden md:block" viewBox="0 0 100 100" fill="none">
           <path d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z" fill="#61dafb"/>
         </svg>
         <div class="role-react-logo" data-icon="ReactLogo">
-          <!-- React Logo SVG inline to avoid clip-path ID conflicts -->
           <svg
             width="135"
             height="120"
@@ -99,22 +87,18 @@ const techLogos = [
     </>
   )}
 
-  {/* ===== MENTOR SLIDE ===== */}
   {data.id === 'mentor' && (
     <>
-      {/* Graduation Cap - centered above title */}
       <div class="absolute top-[12%] md:top-[10%] left-1/2 -translate-x-1/2 pointer-events-none">
         <div class="decoration-icon" data-icon="GraduationCap">
           <GraduationCap size={140} class="w-[120px] h-[80px] md:w-[180px] md:h-[120px]" />
         </div>
       </div>
 
-      {/* Cursor - positioned to the right of title area */}
       <div class="decoration-icon absolute top-[50%] right-[15%] md:right-[25%] pointer-events-none" data-icon="Cursor">
         <Cursor size={70} class="w-[50px] h-[65px] md:w-[70px] md:h-[90px]" />
       </div>
 
-      {/* Cross decorations */}
       <div class="decoration-cross absolute top-[35%] right-[30%] pointer-events-none hidden lg:block">
         <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
           <path d="M14 0V28M0 14H28" stroke="#eeb700" stroke-width="3" stroke-linecap="round"/>
@@ -128,10 +112,8 @@ const techLogos = [
     </>
   )}
 
-  {/* ===== SKILLS SLIDE ===== */}
   {data.id === 'skills' && (
     <>
-      {/* Tech logos floating around */}
       <div class="tech-logos hidden lg:block">
         {techLogos.map((logo, i) => (
           <div class={`decoration-tech-logo absolute pointer-events-none ${logo.class}`} data-index={i}>
@@ -140,7 +122,6 @@ const techLogos = [
         ))}
       </div>
 
-      {/* Code brackets - positioned inline with title */}
       <div class="decoration-bracket absolute top-[42%] left-[10%] md:left-[20%] lg:left-[28%] font-display text-[80px] md:text-[120px] text-[#feb25e] pointer-events-none hidden md:block">
         &lt;
       </div>
@@ -150,14 +131,11 @@ const techLogos = [
     </>
   )}
 
-  {/* Main Content - All Slides */}
   <div class="relative z-10 flex flex-col items-center justify-center h-full px-6">
-    {/* Top spacer for slides with icons above */}
     {(data.id === 'role' || data.id === 'mentor') && (
       <div class="h-[60px] md:h-[100px]"></div>
     )}
 
-    {/* Title - Figma: Stacion, 400, 128px, line-height: 100%, letter-spacing: 0 */}
     <div class="text-center overflow-hidden">
       <h1 class="hero-title font-display font-normal text-brand-brown leading-none tracking-normal text-center">
         {data.titleLines.map((line) => (
@@ -168,7 +146,6 @@ const techLogos = [
       </h1>
     </div>
 
-    {/* Subtitle - Figma: GT Planar, 400, 20px, line-height: 120%, letter-spacing: 0 */}
     <p
       class:list={[
         'hero-subtitle mt-8 md:mt-10 text-center font-sans font-normal text-[16px] md:text-[20px] leading-[1.2] tracking-normal',
@@ -179,7 +156,6 @@ const techLogos = [
     </p>
   </div>
 
-  {/* Background Text Hints - Low opacity to not compete with title */}
   {data.backgroundText?.map((hint) => (
     <div
       class:list={[
@@ -211,13 +187,11 @@ const techLogos = [
     visibility: visible;
   }
 
-  /* Force hide all content on inactive slides */
   .hero-slide[data-active="false"] * {
     opacity: 0 !important;
     animation: none !important;
   }
 
-  /* Initial animation states - hidden until animated */
   .title-text {
     transform: translateY(110%);
   }
@@ -235,7 +209,6 @@ const techLogos = [
     opacity: 0;
   }
 
-  /* Tech logo float animation - only on active slide */
   @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-12px); }
@@ -253,7 +226,6 @@ const techLogos = [
     animation-duration: 5s;
   }
 
-  /* React logo spin animation */
   @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
@@ -263,7 +235,6 @@ const techLogos = [
     animation: spin 20s linear infinite;
   }
 
-  /* Role slide React logo - visible and spinning when active */
   .hero-slide[data-active="true"] .role-react-logo {
     opacity: 1 !important;
   }

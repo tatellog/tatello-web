@@ -5,20 +5,21 @@
  */
 interface Props {
   class?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   color?: 'pink' | 'blue' | 'orange' | 'beige';
 }
 
 const { class: className = '', size = 'md', color = 'pink' } = Astro.props;
 
 const sizeMap = {
-  sm: 'w-4 h-4',
-  md: 'w-8 h-8',
-  lg: 'w-12 h-12'
+  sm: 'w-6 h-7',
+  md: 'w-10 h-11',
+  lg: 'w-16 h-18',
+  xl: 'w-20 h-22'
 };
 
 const colorMap = {
-  pink: 'text-accent-pink',
+  pink: '#FFC4C8',
   blue: 'text-accent-blue',
   orange: 'text-accent-orange',
   beige: 'text-slide-beige'
@@ -26,12 +27,13 @@ const colorMap = {
 ---
 
 <svg
-  class:list={['star-decoration', sizeMap[size], colorMap[color], className]}
-  viewBox="0 0 24 24"
-  fill="currentColor"
+  class:list={['star-decoration', sizeMap[size], className]}
+  viewBox="0 0 123 136"
+  fill={color === 'pink' ? colorMap.pink : 'currentColor'}
   xmlns="http://www.w3.org/2000/svg"
 >
-  <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" />
+  <!-- 4-pointed sparkle star -->
+  <path d="M61.5 0C61.5 0 68 45 68 58C81 58 123 68 123 68C123 68 81 78 68 78C68 91 61.5 136 61.5 136C61.5 136 55 91 55 78C42 78 0 68 0 68C0 68 42 58 55 58C55 45 61.5 0 61.5 0Z" />
 </svg>
 
 <style>

@@ -1,8 +1,4 @@
 ---
-/**
- * About Page - Personal information and introduction
- * Features infinite scroll behavior
- */
 import Layout from '@/layouts/Layout.astro';
 import Header from '@/components/layout/Header.astro';
 import AboutHero from '@/components/sections/AboutHero.astro';
@@ -12,19 +8,11 @@ const pageDescription = "Learn more about Tania Tello - Sr. Front End Engineer p
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-  <!-- Header Navigation -->
   <Header activePage="about" />
 
-  <!-- Main Content with Infinite Scroll -->
   <main id="main-content" class="infinite-scroll-container">
-    <!-- About Hero Section -->
     <AboutHero />
-
-    <!-- Additional sections will go here -->
-    <!-- The infinite scroll will loop back to the top -->
   </main>
-
-  <!-- Skip to content link for accessibility -->
   <a
     href="#main-content"
     class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent-pink focus:text-brand-brown focus:rounded-lg"
@@ -41,17 +29,14 @@ const pageDescription = "Learn more about Tania Tello - Sr. Front End Engineer p
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Infinite scroll implementation
   if (!prefersReducedMotion) {
     const container = document.querySelector('.infinite-scroll-container');
 
     if (container) {
-      // Create scroll trigger for infinite loop effect
       ScrollTrigger.create({
         trigger: container,
         start: 'bottom bottom',
         onEnter: () => {
-          // Smooth scroll back to top when reaching the bottom
           gsap.to(window, {
             duration: 0.8,
             scrollTo: { y: 0, autoKill: false },
@@ -64,7 +49,6 @@ const pageDescription = "Learn more about Tania Tello - Sr. Front End Engineer p
 </script>
 
 <style>
-  /* Screen reader only utility */
   .sr-only {
     position: absolute;
     width: 1px;
