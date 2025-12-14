@@ -4,14 +4,36 @@
  */
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import type {
+  TextRevealOptions,
+  FadeInOptions,
+  FloatingOptions,
+  ScaleOptions,
+  SlideDirection,
+} from '@/types';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Default easing values as per CLAUDE.md
+// =============================================================================
+// CONSTANTS
+// =============================================================================
+
+/** Default easing values as per CLAUDE.md */
 export const EASE = {
   entrance: 'power3.out',
+  exit: 'power2.in',
   transition: 'power2.inOut',
   bounce: 'back.out(1.7)',
+  elastic: 'elastic.out(1, 0.3)',
+  smooth: 'sine.inOut',
+} as const;
+
+/** Default animation durations in seconds */
+export const DURATION = {
+  fast: 0.3,
+  normal: 0.6,
+  slow: 0.8,
+  slower: 1.0,
 } as const;
 
 /**

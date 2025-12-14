@@ -1,0 +1,417 @@
+---
+/**
+ * HeroBanner - Dynamic hero slide component
+ * Each slide has a specific layout matching the Figma design
+ */
+import type { HeroBannerData } from '@/types';
+import Python from '@/components/icons/Python.astro';
+import ReactLogo from '@/components/icons/ReactLogo.astro';
+import GraduationCap from '@/components/icons/GraduationCap.astro';
+import Cursor from '@/components/icons/Cursor.astro';
+
+interface Props {
+  data: HeroBannerData;
+  isActive?: boolean;
+}
+
+const { data, isActive = false } = Astro.props;
+
+// Tech logos for skills slide
+const techLogos = [
+  { src: '/images/tech/redux.svg', alt: 'Redux', class: 'top-[120px] left-[35%] w-[50px]' },
+  { src: '/images/tech/react.svg', alt: 'React', class: 'top-[100px] left-[50%] w-[60px]' },
+  { src: '/images/tech/cypress.svg', alt: 'Cypress', class: 'top-[130px] right-[25%] w-[120px]' },
+  { src: '/images/tech/testing.svg', alt: 'Testing Library', class: 'top-[160px] right-[15%] w-[60px]' },
+  { src: '/images/tech/javascript.svg', alt: 'JavaScript', class: 'top-[220px] left-[18%] w-[55px]' },
+  { src: '/images/tech/typescript.svg', alt: 'TypeScript', class: 'top-[250px] right-[20%] w-[55px]' },
+  { src: '/images/tech/testing.svg', alt: 'E2E Testing', class: 'left-[10%] top-[45%] w-[100px]' },
+  { src: '/images/tech/graphql.svg', alt: 'GraphQL', class: 'right-[10%] top-[55%] w-[55px]' },
+  { src: '/images/tech/nextjs.svg', alt: 'Next.js', class: 'bottom-[25%] left-[10%] w-[110px]' },
+  { src: '/images/tech/python.svg', alt: 'Python', class: 'bottom-[20%] left-[30%] w-[50px]' },
+  { src: '/images/tech/nodejs.svg', alt: 'Node.js', class: 'bottom-[22%] right-[20%] w-[55px]' },
+];
+---
+
+<section
+  id={`slide-${data.id}`}
+  class:list={[
+    'hero-slide absolute inset-0 overflow-hidden',
+    data.bgColor,
+  ]}
+  data-slide={data.index}
+  data-active={isActive ? 'true' : 'false'}
+>
+  {/* ===== INTRO SLIDE ===== */}
+  {data.id === 'intro' && (
+    <>
+      {/* Sparkles near title */}
+      <div class="sparkles-container absolute top-[35%] left-[15%] md:left-[20%] lg:left-[25%] pointer-events-none">
+        <svg class="decoration-sparkle w-16 h-16 md:w-20 md:h-20 absolute -top-4 -left-4" viewBox="0 0 100 100" fill="none">
+          <path d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z" fill="#ffc4c8"/>
+        </svg>
+        <svg class="decoration-sparkle w-8 h-8 md:w-10 md:h-10 absolute -top-12 left-8" viewBox="0 0 100 100" fill="none">
+          <path d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z" fill="#ffc4c8"/>
+        </svg>
+        <svg class="decoration-sparkle w-5 h-5 md:w-6 md:h-6 absolute top-0 left-16" viewBox="0 0 100 100" fill="none">
+          <path d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z" fill="#ffc4c8"/>
+        </svg>
+      </div>
+
+      {/* Python Logo */}
+      <div class="decoration-icon absolute bottom-[20%] left-[10%] md:left-[15%] pointer-events-none hidden md:block">
+        <Python size={120} color="#ffc4c8" strokeWidth={2} class="w-[100px] md:w-[130px]" />
+      </div>
+
+      {/* Cross decoration */}
+      <div class="decoration-cross absolute top-[45%] right-[10%] md:right-[15%] rotate-45 pointer-events-none hidden lg:block">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <path d="M20 0V40M0 20H40" stroke="#673437" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </>
+  )}
+
+  {/* ===== ROLE SLIDE ===== */}
+  {data.id === 'role' && (
+    <>
+      {/* React Logo - centered above title */}
+      <div class="absolute top-[15%] md:top-[12%] left-1/2 -translate-x-1/2 flex items-center gap-4 pointer-events-none">
+        <svg class="decoration-sparkle w-6 h-6 hidden md:block" viewBox="0 0 100 100" fill="none">
+          <path d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z" fill="#61dafb"/>
+        </svg>
+        <div class="decoration-icon" data-icon="ReactLogo">
+          <ReactLogo size={120} class="w-[80px] h-[70px] md:w-[120px] md:h-[105px]" />
+        </div>
+        <svg class="decoration-sparkle w-6 h-6 hidden md:block" viewBox="0 0 100 100" fill="none">
+          <path d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z" fill="#61dafb"/>
+        </svg>
+      </div>
+    </>
+  )}
+
+  {/* ===== MENTOR SLIDE ===== */}
+  {data.id === 'mentor' && (
+    <>
+      {/* Graduation Cap - centered above title */}
+      <div class="absolute top-[12%] md:top-[10%] left-1/2 -translate-x-1/2 pointer-events-none">
+        <div class="decoration-icon" data-icon="GraduationCap">
+          <GraduationCap size={140} class="w-[120px] h-[80px] md:w-[180px] md:h-[120px]" />
+        </div>
+      </div>
+
+      {/* Cursor - positioned to the right of title area */}
+      <div class="decoration-icon absolute top-[50%] right-[15%] md:right-[25%] pointer-events-none" data-icon="Cursor">
+        <Cursor size={70} class="w-[50px] h-[65px] md:w-[70px] md:h-[90px]" />
+      </div>
+
+      {/* Cross decorations */}
+      <div class="decoration-cross absolute top-[35%] right-[30%] pointer-events-none hidden lg:block">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <path d="M14 0V28M0 14H28" stroke="#eeb700" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="decoration-cross absolute top-[55%] left-[20%] pointer-events-none hidden lg:block">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 0V24M0 12H24" stroke="#eeb700" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </>
+  )}
+
+  {/* ===== SKILLS SLIDE ===== */}
+  {data.id === 'skills' && (
+    <>
+      {/* Tech logos floating around */}
+      <div class="tech-logos hidden lg:block">
+        {techLogos.map((logo, i) => (
+          <div class={`decoration-tech-logo absolute pointer-events-none ${logo.class}`} data-index={i}>
+            <img src={logo.src} alt={logo.alt} class="w-full h-auto object-contain" loading="lazy" />
+          </div>
+        ))}
+      </div>
+
+      {/* Code brackets - positioned inline with title */}
+      <div class="decoration-bracket absolute top-[42%] left-[10%] md:left-[20%] lg:left-[28%] font-display text-[80px] md:text-[120px] text-[#feb25e] pointer-events-none hidden md:block">
+        &lt;
+      </div>
+      <div class="decoration-bracket absolute top-[48%] right-[10%] md:right-[18%] lg:right-[25%] font-display text-[80px] md:text-[120px] text-[#feb25e] pointer-events-none hidden md:block">
+        /&gt;
+      </div>
+    </>
+  )}
+
+  {/* Main Content - All Slides */}
+  <div class="relative z-10 flex flex-col items-center justify-center h-full px-6">
+    {/* Top spacer for slides with icons above */}
+    {(data.id === 'role' || data.id === 'mentor') && (
+      <div class="h-[60px] md:h-[100px]"></div>
+    )}
+
+    {/* Title - Figma: Stacion, 400, 128px, line-height: 100%, letter-spacing: 0 */}
+    <div class="text-center overflow-hidden">
+      <h1 class="hero-title font-display font-normal text-brand-brown leading-none tracking-normal text-center">
+        {data.titleLines.map((line) => (
+          <span class="title-line block overflow-hidden">
+            <span class="title-text inline-block text-[clamp(3rem,10vw,128px)]">{line}</span>
+          </span>
+        ))}
+      </h1>
+    </div>
+
+    {/* Subtitle - Figma: GT Planar, 400, 20px, line-height: 120%, letter-spacing: 0 */}
+    <p
+      class:list={[
+        'hero-subtitle mt-8 md:mt-10 text-center font-sans font-normal text-[16px] md:text-[20px] leading-[1.2] tracking-normal',
+        data.id === 'skills' ? 'text-brand-dark max-w-[845px] px-4' : 'text-brand-dark max-w-[340px] md:max-w-[666px]',
+      ]}
+    >
+      {data.subtitle}
+    </p>
+  </div>
+
+  {/* Background Text Hints - Low opacity to not compete with title */}
+  {data.backgroundText?.map((hint) => (
+    <div
+      class:list={[
+        'bg-text hidden xl:block absolute top-1/2 -translate-y-1/2 font-display font-normal text-[80px] 2xl:text-[128px] leading-none tracking-normal whitespace-nowrap pointer-events-none select-none',
+        hint.side === 'left' ? 'left-[-200px] 2xl:left-[-280px]' : 'right-[-200px] 2xl:right-[-280px]',
+      ]}
+      style="color: rgba(103, 52, 55, 0.08);"
+      aria-hidden="true"
+    >
+      {hint.lines.map((line) => <p class="text-center">{line}</p>)}
+    </div>
+  ))}
+</section>
+
+<style>
+  .hero-slide {
+    transition: opacity 0.5s ease-out;
+  }
+
+  .hero-slide[data-active="false"] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .hero-slide[data-active="true"] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Initial animation states - hidden until animated */
+  .title-text {
+    transform: translateY(110%);
+  }
+
+  .hero-subtitle {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .decoration-sparkle,
+  .decoration-icon,
+  .decoration-cross,
+  .decoration-bracket {
+    opacity: 0;
+  }
+
+  .decoration-tech-logo {
+    opacity: 0;
+  }
+
+  /* Tech logo float animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .hero-slide[data-active="true"] .decoration-tech-logo {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .hero-slide[data-active="true"] .decoration-tech-logo:nth-child(odd) {
+    animation-delay: -2s;
+  }
+
+  .hero-slide[data-active="true"] .decoration-tech-logo:nth-child(3n) {
+    animation-duration: 5s;
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function initSlideAnimations(slide: HTMLElement) {
+    const ctx = gsap.context(() => {
+      const titleTexts = slide.querySelectorAll('.title-text');
+      const subtitle = slide.querySelector('.hero-subtitle');
+      const sparkles = slide.querySelectorAll('.decoration-sparkle');
+      const icons = slide.querySelectorAll('.decoration-icon');
+      const crosses = slide.querySelectorAll('.decoration-cross');
+      const brackets = slide.querySelectorAll('.decoration-bracket');
+      const techLogos = slide.querySelectorAll('.decoration-tech-logo');
+      const bgText = slide.querySelectorAll('.bg-text');
+
+      if (prefersReducedMotion) {
+        gsap.set(titleTexts, { y: 0 });
+        gsap.set(subtitle, { opacity: 1, y: 0 });
+        gsap.set([sparkles, icons, crosses, brackets, techLogos], { opacity: 1 });
+        return;
+      }
+
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      // Title reveal
+      tl.to(titleTexts, {
+        y: 0,
+        duration: 0.9,
+        stagger: 0.12,
+      })
+
+      // Subtitle fade in
+      .to(subtitle, {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+      }, '-=0.5');
+
+      // Sparkles
+      if (sparkles.length) {
+        tl.to(sparkles, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.6,
+          stagger: 0.08,
+          ease: 'back.out(1.7)',
+        }, '-=0.6');
+
+        // Floating animation
+        sparkles.forEach((sparkle, i) => {
+          gsap.to(sparkle, {
+            y: `-=${6 + i * 2}`,
+            duration: 2 + i * 0.3,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            delay: i * 0.3,
+          });
+        });
+      }
+
+      // Icons
+      if (icons.length) {
+        tl.to(icons, {
+          opacity: 1,
+          duration: 0.7,
+          stagger: 0.1,
+        }, '-=0.5');
+
+        // Icon-specific animations
+        icons.forEach((icon) => {
+          const iconEl = icon as HTMLElement;
+          const iconName = iconEl.dataset.icon;
+
+          if (iconName === 'ReactLogo') {
+            gsap.to(icon, {
+              rotation: 360,
+              duration: 40,
+              repeat: -1,
+              ease: 'none',
+            });
+          } else {
+            gsap.to(icon, {
+              y: -8,
+              duration: 2.5,
+              repeat: -1,
+              yoyo: true,
+              ease: 'sine.inOut',
+            });
+          }
+        });
+      }
+
+      // Crosses
+      if (crosses.length) {
+        tl.to(crosses, {
+          opacity: 1,
+          duration: 0.5,
+          stagger: 0.1,
+        }, '-=0.4');
+      }
+
+      // Brackets
+      if (brackets.length) {
+        tl.to(brackets, {
+          opacity: 1,
+          duration: 0.5,
+          stagger: 0.15,
+        }, '-=0.4');
+      }
+
+      // Tech logos
+      if (techLogos.length) {
+        tl.to(techLogos, {
+          opacity: 1,
+          duration: 0.4,
+          stagger: 0.05,
+        }, '-=0.3');
+      }
+
+      // Background text
+      if (bgText.length) {
+        tl.to(bgText, {
+          opacity: 1,
+          duration: 1,
+        }, '-=0.5');
+      }
+
+    }, slide);
+
+    return ctx;
+  }
+
+  function resetSlideAnimations(slide: HTMLElement) {
+    gsap.killTweensOf(slide.querySelectorAll('*'));
+
+    const titleTexts = slide.querySelectorAll('.title-text');
+    const subtitle = slide.querySelector('.hero-subtitle');
+    const decorations = slide.querySelectorAll('.decoration-sparkle, .decoration-icon, .decoration-cross, .decoration-bracket, .decoration-tech-logo');
+
+    gsap.set(titleTexts, { y: '110%' });
+    gsap.set(subtitle, { opacity: 0, y: 20 });
+    gsap.set(decorations, { opacity: 0 });
+  }
+
+  // Initialize on DOM ready
+  document.addEventListener('DOMContentLoaded', () => {
+    const activeSlide = document.querySelector('.hero-slide[data-active="true"]');
+    if (activeSlide) {
+      initSlideAnimations(activeSlide as HTMLElement);
+    }
+  });
+
+  // Watch for slide changes
+  const slides = document.querySelectorAll('.hero-slide');
+  slides.forEach((slide) => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'data-active') {
+          const slideEl = mutation.target as HTMLElement;
+          if (slideEl.dataset.active === 'true') {
+            resetSlideAnimations(slideEl);
+            setTimeout(() => initSlideAnimations(slideEl), 50);
+          }
+        }
+      });
+    });
+    observer.observe(slide, { attributes: true });
+  });
+
+  // Cleanup
+  document.addEventListener('astro:before-swap', () => {
+    gsap.killTweensOf('.hero-slide *');
+  });
+</script>

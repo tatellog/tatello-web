@@ -3,10 +3,8 @@
  * HeroSlider - Container for hero slides with navigation controls
  * Handles slide transitions, pagination, and auto-advance
  */
-import HeroIntro from './HeroIntro.astro';
-import HeroRole from './HeroRole.astro';
-import HeroMentor from './HeroMentor.astro';
-import HeroSkills from './HeroSkills.astro';
+import HeroBanner from './HeroBanner.astro';
+import { heroSlides } from '@/data/heroSlides';
 
 interface Props {
   email?: string;
@@ -14,13 +12,6 @@ interface Props {
 }
 
 const { email = 'hello@taniatello.com', autoPlayInterval = 6000 } = Astro.props;
-
-const slides = [
-  { id: 0, name: 'intro', label: 'Introduction', accentColor: 'bg-accent-pink' },
-  { id: 1, name: 'role', label: 'Role', accentColor: 'bg-accent-blue' },
-  { id: 2, name: 'mentor', label: 'Mentor', accentColor: 'bg-accent-purple' },
-  { id: 3, name: 'skills', label: 'Skills', accentColor: 'bg-accent-orange' },
-];
 ---
 
 <div
@@ -30,21 +21,21 @@ const slides = [
 >
   <!-- Slides Container -->
   <div id="slides-container" class="relative w-full h-full">
-    <HeroIntro />
-    <HeroRole />
-    <HeroMentor />
-    <HeroSkills />
+    {heroSlides.map((slide, index) => (
+      <HeroBanner data={slide} isActive={index === 0} />
+    ))}
   </div>
 
   <!-- Slide Controls / Pagination Dots -->
   <div class="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
-    {slides.map((slide, index) => (
+    {heroSlides.map((slide, index) => (
       <button
         class:list={[
           'slide-dot rounded-full transition-all duration-300 cursor-pointer hover:scale-110',
-          index === 0 ? 'w-[42px] h-[10px] bg-accent-pink' : 'w-[10px] h-[10px] bg-brand-dark/40'
+          index === 0 ? `w-[42px] h-[10px] ${slide.accentColor}` : 'w-[10px] h-[10px] bg-brand-dark/40'
         ]}
         data-slide-index={index}
+        data-accent-color={slide.accentColor}
         aria-label={`Go to ${slide.label} slide`}
         aria-current={index === 0 ? 'true' : 'false'}
       />
@@ -126,8 +117,10 @@ const slides = [
   let autoPlayTimer: ReturnType<typeof setInterval> | null = null;
   let progressAnimation: gsap.core.Tween | null = null;
 
-  // Accent colors for each slide (matching tailwind classes)
-  const accentColors = ['bg-accent-pink', 'bg-accent-blue', 'bg-accent-purple', 'bg-accent-orange'];
+  // Get accent colors from data attributes
+  const accentColors = Array.from(dots).map(
+    (dot) => (dot as HTMLElement).dataset.accentColor || 'bg-accent-pink'
+  );
 
   // Check for reduced motion preference
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
