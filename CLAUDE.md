@@ -91,34 +91,67 @@ gsap.from(".card", {
 - Use `ScrollTrigger.batch()` for multiple similar elements
 - Lazy load heavy animations below the fold
 
-## Specific Animations Needed
+## Figma Design States (Automatic Animations)
 
-### Hero Section
-- [ ] Name/title: Letter-by-letter reveal with slight bounce
-- [ ] Subtitle: Fade in after title completes
-- [ ] CTA button: Scale up with subtle glow effect
-- [ ] Background: Subtle parallax or gradient animation
+The design has multiple states per section that represent animation sequences.
+All animations are AUTOMATIC (triggered on load or scroll into view).
+
+### Hero Section (Home 1.0 → 1.1)
+- **Trigger**: On page load
+- **Animation**: 
+  - [ ] "Hi! I'm Tania Tello" - Letter-by-letter reveal
+  - [ ] Role titles fade in after name
+  - [ ] Background elements animate in
+- **Duration**: ~2-3 seconds total
+
+### About Section (About 1.0 → 1.1 → 1.2)
+- **Trigger**: ScrollTrigger when section enters viewport
+- **Animation sequence**:
+  - [ ] State 1.0 → 1.1: Initial reveal
+  - [ ] State 1.1 → 1.2: Secondary elements appear
+- **Use**: gsap.timeline() with ScrollTrigger
+
+### Skills Section (Skills 1.0)
+- **Trigger**: ScrollTrigger
+- **Animation**:
+  - [ ] Skill items stagger in
+  - [ ] Icons/badges animate with slight bounce
+
+### Hobbies Section (Hobbies 1.0 → 1.1 → 1.2 → 1.3)
+- **Trigger**: Automatic carousel OR scroll-triggered sequence
+- **States**: Mentoring → Travel → Luna → Family
+- **Animation**:
+  - [ ] Auto-rotate between states (4-5 seconds each)
+  - [ ] Smooth crossfade between hobbies
+  - [ ] Consider: pause on hover
+
+### Experience Section (Experience 1.0)
+- **Trigger**: ScrollTrigger
+- **Animation**:
+  - [ ] Timeline items reveal with stagger
+  - [ ] Lines/connectors draw in
+
+### Work/Projects Section (Work 1.0 → 1.1)
+- **Trigger**: ScrollTrigger + Hover
+- **Animation**:
+  - [ ] Project cards fade in with stagger on scroll
+  - [ ] Hover state (1.1): Card expands or reveals details
+
+### Contact Section (Contact 1.0)
+- **Trigger**: ScrollTrigger
+- **Animation**:
+  - [ ] Form fades in
+  - [ ] CTA button subtle pulse or glow
 
 ### Navigation
 - [ ] Hide on scroll down, show on scroll up
 - [ ] Smooth background blur transition when scrolling
 - [ ] Mobile menu: Slide in from right with staggered links
 
-### Projects Grid
-- [ ] Cards fade in with stagger on scroll
-- [ ] Hover: Smooth scale + shadow elevation
-- [ ] Image: Subtle zoom on hover
-- [ ] Cursor: Custom cursor that changes on hover
-
 ### Page Transitions
 - [ ] Use Astro ViewTransitions
 - [ ] Fade out current page, fade in new page
 - [ ] Persistent header during transitions
-
-### Contact Section
-- [ ] Form fields: Focus animation (border glow)
-- [ ] Submit button: Loading state with spinner
-- [ ] Success message: Slide in from bottom
 
 ## Do's and Don'ts
 
@@ -186,6 +219,91 @@ Review the Header component animation performance.
 Check if there are any jank issues or unnecessary repaints.
 Don't rewrite - just give me feedback first.
 ```
+
+## Figma MCP Integration
+
+### Setup Options
+
+**Option 1: Figma Official MCP (Recommended)**
+```bash
+claude mcp add --transport http figma https://mcp.figma.com/mcp
+```
+
+**Option 2: Composio MCP (More features, +250 apps)**
+```bash
+npx @composio/mcp@latest setup "<your-composio-url>" "figma-mcp" --client claude
+```
+
+After setup, restart Claude Code and run `/mcp` to verify connection.
+
+### How to Use Figma MCP
+
+1. **Get the frame link**: In Figma, right-click on a frame → "Copy link to selection"
+2. **Paste in prompt**: Include the Figma link when asking Claude to convert
+
+### Figma to Code Conversion Rules
+
+When converting designs from Figma to code:
+
+**Styling**
+- Use Tailwind CSS classes exclusively, no inline styles
+- Convert Figma colors to CSS custom properties in `global.css`
+- Map Figma spacing: 8px grid → Tailwind spacing scale (8px = 2, 16px = 4, etc.)
+- Use `rem` units for typography (16px base)
+
+**Layout**
+- Use CSS Grid for complex layouts, Flexbox for simpler ones
+- Implement mobile-first (start with mobile Figma frame, add breakpoints)
+- Match exact spacing from Figma using Tailwind's spacing utilities
+
+**Components**
+- Create reusable `.astro` components for repeated UI elements
+- Extract variants into component props
+- Name components to match Figma layer names when possible
+
+**Assets**
+- Export icons as inline SVG (optimize with SVGO)
+- Use `astro:assets` for images with proper sizing
+- Implement lazy loading for below-fold images
+
+**Animations**
+- Add GSAP animations for interactive elements (not in Figma)
+- Use the animation patterns defined in this file
+- Don't animate anything that isn't supposed to move
+
+### Example Figma Conversion Prompt
+
+```
+Convert this Figma frame to an Astro component with Tailwind CSS.
+
+Figma link: https://www.figma.com/file/xxx/Portfolio?node-id=1-234
+
+Requirements:
+- Match exact colors, spacing, and typography from Figma
+- Make it fully responsive (mobile-first)
+- Add GSAP fade-in animation on scroll
+- Export any icons as inline SVG
+- Use semantic HTML structure
+```
+
+### Figma Design Tokens to Extract
+
+When starting a new project, ask Claude to extract these from Figma:
+- Color palette → CSS custom properties
+- Typography scale → Tailwind config
+- Spacing system → Tailwind spacing
+- Border radius values → Tailwind config
+- Shadow styles → Tailwind config
+
+### Limitations to Know
+
+| ✅ Works Well | ⚠️ Manual Work Needed |
+|---------------|----------------------|
+| Static layouts | Complex animations |
+| Colors & typography | Figma prototypes |
+| Component structure | Custom interactions |
+| SVG icons | Charts/graphs |
+| Responsive grids | Multi-screen flows |
 
 ## Notes
 - Figma design reference: [ADD YOUR FIGMA LINK HERE]

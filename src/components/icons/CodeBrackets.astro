@@ -1,0 +1,97 @@
+---
+/**
+ * CodeBrackets - </> code brackets decoration from Figma design
+ */
+interface Props {
+  class?: string;
+  size?: number;
+  color?: string;
+  variant?: 'open' | 'close' | 'both';
+}
+
+const {
+  class: className = '',
+  size = 48,
+  color = '#feb25e',
+  variant = 'both'
+} = Astro.props;
+---
+
+{variant === 'open' && (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 48 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    class={className}
+    aria-hidden="true"
+  >
+    <path
+      d="M30 8L14 24L30 40"
+      stroke={color}
+      stroke-width="4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none"
+    />
+  </svg>
+)}
+
+{variant === 'close' && (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 48 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    class={className}
+    aria-hidden="true"
+  >
+    <path
+      d="M18 8L34 24L18 40"
+      stroke={color}
+      stroke-width="4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none"
+    />
+    <path
+      d="M26 8L42 24L26 40"
+      stroke={color}
+      stroke-width="4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none"
+    />
+  </svg>
+)}
+
+{variant === 'both' && (
+  <svg
+    width={size * 2}
+    height={size}
+    viewBox="0 0 96 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    class={className}
+    aria-hidden="true"
+  >
+    <path
+      d="M30 8L14 24L30 40"
+      stroke={color}
+      stroke-width="4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none"
+    />
+    <path
+      d="M66 8L82 24L66 40"
+      stroke={color}
+      stroke-width="4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none"
+    />
+  </svg>
+)}

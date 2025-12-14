@@ -1,0 +1,266 @@
+---
+/**
+ * HeroIntro - "Hi! I'm Tania Tello" intro slide
+ * Pink background (#f7ebec) with decorative sparkle graphics
+ * Features GSAP text reveal animation (letter by letter)
+ */
+import Python from '@/components/icons/Python.astro';
+---
+
+<section
+  id="slide-intro"
+  class="hero-slide absolute inset-0 bg-slide-pink overflow-hidden"
+  data-slide="0"
+>
+  <!-- Sparkle Decorations (upper area near title) -->
+  <div class="sparkles-container absolute top-[200px] left-[calc(50%-280px)] md:left-[calc(50%-350px)] pointer-events-none">
+    <!-- Large 4-point star -->
+    <svg
+      class="sparkle sparkle-1 absolute -top-8 -left-8 w-20 h-20 md:w-24 md:h-24"
+      viewBox="0 0 100 100"
+      fill="none"
+    >
+      <path
+        d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z"
+        fill="#ffc4c8"
+      />
+    </svg>
+
+    <!-- Medium star (top right of large) -->
+    <svg
+      class="sparkle sparkle-2 absolute top-[-60px] left-12 w-10 h-10 md:w-12 md:h-12"
+      viewBox="0 0 100 100"
+      fill="none"
+    >
+      <path
+        d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z"
+        fill="#ffc4c8"
+      />
+    </svg>
+
+    <!-- Small star -->
+    <svg
+      class="sparkle sparkle-3 absolute top-[-20px] left-20 w-6 h-6 md:w-8 md:h-8"
+      viewBox="0 0 100 100"
+      fill="none"
+    >
+      <path
+        d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z"
+        fill="#ffc4c8"
+      />
+    </svg>
+  </div>
+
+  <!-- Python Logo Decoration (bottom left) -->
+  <div class="decoration-python absolute bottom-[140px] left-[120px] md:left-[200px] pointer-events-none hidden md:block">
+    <Python size={140} color="#ffc4c8" strokeWidth={2} />
+  </div>
+
+  <!-- Cross Decoration (right side) -->
+  <div class="decoration-cross absolute top-[55%] right-[8%] md:right-[15%] rotate-45 pointer-events-none hidden lg:block">
+    <svg width="44" height="44" viewBox="0 0 44 44" fill="none" class="cross-decoration">
+      <path d="M22 0V44M0 22H44" stroke="#673437" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <!-- Main Content -->
+  <div class="relative z-10 flex flex-col items-center justify-center h-full px-6 pt-16 md:pt-20">
+    <!-- Title with text reveal animation -->
+    <div class="text-center overflow-hidden">
+      <h1 class="hero-title font-display text-brand-brown leading-[1] md:leading-[1.1]">
+        <span class="title-line block overflow-hidden">
+          <span class="title-text inline-block text-[clamp(2.5rem,8vw,8rem)]">Hi! I'm</span>
+        </span>
+        <span class="title-line block overflow-hidden">
+          <span class="title-text inline-block text-[clamp(2.5rem,8vw,8rem)]">Tania Tello</span>
+        </span>
+      </h1>
+    </div>
+
+    <!-- Subtitle -->
+    <p class="hero-subtitle mt-6 md:mt-10 text-brand-dark text-center text-base md:text-xl leading-[1.4] max-w-[320px] md:max-w-[666px] font-sans opacity-0">
+      Always passionate about crafting experiences that are engaging, accessible, and user-centric.
+    </p>
+  </div>
+
+  <!-- Background text hints (sides, faded) - visible on xl screens -->
+  <div
+    class="bg-text-left hidden xl:block absolute top-1/2 -translate-y-1/2 left-[-280px] text-brand-brown/20 font-display text-[100px] 2xl:text-[128px] leading-[1.1] text-center whitespace-nowrap pointer-events-none select-none"
+    aria-hidden="true"
+  >
+    <p>Oh boy, can</p>
+    <p>I code</p>
+  </div>
+
+  <div
+    class="bg-text-right hidden xl:block absolute top-1/2 -translate-y-1/2 right-[-280px] text-brand-brown/20 font-display text-[100px] 2xl:text-[128px] leading-[1.1] text-center whitespace-nowrap pointer-events-none select-none"
+    aria-hidden="true"
+  >
+    <p>Sr. Front End</p>
+    <p>Engineer</p>
+  </div>
+</section>
+
+<style>
+  .hero-slide {
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+  }
+
+  .hero-slide[data-active="false"] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .hero-slide[data-active="true"] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Initial state for animations - hidden until GSAP runs */
+  .title-text {
+    transform: translateY(100%);
+  }
+
+  .sparkle {
+    opacity: 0;
+    transform: scale(0) rotate(-180deg);
+  }
+
+  .decoration-python,
+  .decoration-cross {
+    opacity: 0;
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  // Check for reduced motion preference
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function initHeroIntroAnimations() {
+    const slide = document.getElementById('slide-intro');
+    if (!slide) return;
+
+    // Create GSAP context for proper cleanup
+    const ctx = gsap.context(() => {
+      if (prefersReducedMotion) {
+        // Instant reveal for reduced motion
+        gsap.set('.title-text', { y: 0 });
+        gsap.set('.hero-subtitle', { opacity: 1 });
+        gsap.set('.sparkle', { opacity: 1, scale: 1, rotation: 0 });
+        gsap.set('.decoration-python, .decoration-cross', { opacity: 1 });
+        return;
+      }
+
+      // Master timeline for coordinated animations
+      const tl = gsap.timeline({
+        defaults: { ease: 'power3.out' }
+      });
+
+      // Text reveal animation (line by line with slight bounce)
+      tl.to('.title-text', {
+        y: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: 'power3.out'
+      })
+
+      // Subtitle fade in after title
+      .to('.hero-subtitle', {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power2.out'
+      }, '-=0.4')
+
+      // Sparkles animation with stagger and rotation
+      .to('.sparkle', {
+        opacity: 1,
+        scale: 1,
+        rotation: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'back.out(1.7)'
+      }, '-=0.6')
+
+      // Other decorations fade in
+      .to('.decoration-python', {
+        opacity: 0.9,
+        duration: 0.6,
+        ease: 'power2.out'
+      }, '-=0.4')
+
+      .to('.decoration-cross', {
+        opacity: 1,
+        scale: 1,
+        duration: 0.5,
+        ease: 'back.out(1.7)'
+      }, '-=0.3');
+
+      // Subtle floating animation for sparkles (continuous)
+      gsap.to('.sparkle-1', {
+        y: -8,
+        duration: 2.5,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+      });
+
+      gsap.to('.sparkle-2', {
+        y: -6,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: 0.5
+      });
+
+      gsap.to('.sparkle-3', {
+        y: -4,
+        duration: 1.8,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: 1
+      });
+
+      // Subtle rotation for cross decoration
+      gsap.to('.decoration-cross', {
+        rotation: '+=360',
+        duration: 20,
+        repeat: -1,
+        ease: 'none',
+        transformOrigin: 'center center'
+      });
+
+    }, slide);
+
+    return ctx;
+  }
+
+  // Initialize animations when DOM is ready
+  document.addEventListener('DOMContentLoaded', initHeroIntroAnimations);
+
+  // Re-run animations when slide becomes active (for slider navigation)
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'data-active') {
+        const slide = mutation.target as HTMLElement;
+        if (slide.dataset.active === 'true') {
+          // Reset and replay animations
+          gsap.set('.title-text', { y: '100%' });
+          gsap.set('.hero-subtitle', { opacity: 0 });
+          gsap.set('.sparkle', { opacity: 0, scale: 0, rotation: -180 });
+          gsap.set('.decoration-python, .decoration-cross', { opacity: 0 });
+          initHeroIntroAnimations();
+        }
+      }
+    });
+  });
+
+  const slideIntro = document.getElementById('slide-intro');
+  if (slideIntro) {
+    observer.observe(slideIntro, { attributes: true });
+  }
+</script>

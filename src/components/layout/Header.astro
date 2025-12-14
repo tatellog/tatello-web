@@ -1,0 +1,159 @@
+---
+interface Props {
+  variant?: 'pink' | 'orange';
+}
+
+const { variant = 'pink' } = Astro.props;
+
+const accentColor = variant === 'pink' ? 'bg-slide-pink-accent' : 'bg-slide-orange-accent';
+---
+
+<header id="header" class="fixed top-0 left-0 right-0 z-50 transition-transform duration-300">
+  <nav class="flex items-center justify-between px-8 lg:px-12 py-6 max-w-[1440px] mx-auto">
+    <!-- Logo -->
+    <a href="/" class="logo flex-shrink-0" aria-label="Home">
+      <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="17.5" cy="17.5" r="16" fill="#1d1d1e"/>
+        <ellipse cx="12" cy="14" rx="2" ry="2.5" fill="white"/>
+        <ellipse cx="23" cy="14" rx="2" ry="2.5" fill="white"/>
+        <path d="M11 22 C14 26, 21 26, 24 22" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <rect x="10" y="4" width="15" height="6" rx="2" fill="#feb25e"/>
+      </svg>
+    </a>
+
+    <!-- Navigation Links -->
+    <div class="hidden md:flex items-center gap-16 lg:gap-20">
+      <a href="#about" class="nav-link text-brand-dark text-[17px] font-sans hover:opacity-70 transition-opacity">
+        About
+      </a>
+      <a href="#experience" class="nav-link text-brand-dark text-[17px] font-sans hover:opacity-70 transition-opacity">
+        Experience
+      </a>
+      <a href="#work" class="nav-link text-brand-dark text-[17px] font-sans hover:opacity-70 transition-opacity">
+        Work
+      </a>
+    </div>
+
+    <!-- CTA Button -->
+    <a
+      href="#contact"
+      class:list={[
+        'cta-button hidden md:flex items-center justify-center px-5 py-2 rounded-full text-brand-dark text-[17px] font-sans transition-all hover:scale-105',
+        accentColor
+      ]}
+    >
+      Reach Out!
+    </a>
+
+    <!-- Mobile Menu Button -->
+    <button
+      id="mobile-menu-btn"
+      class="md:hidden flex flex-col gap-1.5 p-2"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >
+      <span class="w-6 h-0.5 bg-brand-dark transition-transform origin-center"></span>
+      <span class="w-6 h-0.5 bg-brand-dark transition-opacity"></span>
+      <span class="w-6 h-0.5 bg-brand-dark transition-transform origin-center"></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 bg-slide-pink z-40 translate-x-full transition-transform duration-300 md:hidden"
+  >
+    <div class="flex flex-col items-center justify-center h-full gap-8">
+      <a href="#about" class="mobile-nav-link text-brand-dark text-2xl font-sans">About</a>
+      <a href="#experience" class="mobile-nav-link text-brand-dark text-2xl font-sans">Experience</a>
+      <a href="#work" class="mobile-nav-link text-brand-dark text-2xl font-sans">Work</a>
+      <a
+        href="#contact"
+        class:list={[
+          'mt-4 px-8 py-3 rounded-full text-brand-dark text-xl font-sans',
+          accentColor
+        ]}
+      >
+        Reach Out!
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const header = document.getElementById('header');
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  let lastScrollY = 0;
+  let isMenuOpen = false;
+
+  // Hide header on scroll down, show on scroll up
+  ScrollTrigger.create({
+    start: 'top -100',
+    onUpdate: (self) => {
+      if (!header) return;
+
+      const scrollY = window.scrollY;
+      const direction = self.direction;
+
+      if (direction === 1 && scrollY > 100 && !isMenuOpen) {
+        // Scrolling down
+        gsap.to(header, { y: -100, duration: 0.3, ease: 'power2.out' });
+      } else if (direction === -1) {
+        // Scrolling up
+        gsap.to(header, { y: 0, duration: 0.3, ease: 'power2.out' });
+      }
+
+      lastScrollY = scrollY;
+    }
+  });
+
+  // Mobile menu toggle
+  mobileMenuBtn?.addEventListener('click', () => {
+    isMenuOpen = !isMenuOpen;
+    const spans = mobileMenuBtn.querySelectorAll('span');
+
+    if (isMenuOpen) {
+      mobileMenu?.classList.remove('translate-x-full');
+      mobileMenuBtn.setAttribute('aria-expanded', 'true');
+      gsap.to(spans[0], { rotation: 45, y: 6, duration: 0.3 });
+      gsap.to(spans[1], { opacity: 0, duration: 0.3 });
+      gsap.to(spans[2], { rotation: -45, y: -6, duration: 0.3 });
+
+      // Stagger in mobile links
+      gsap.from('.mobile-nav-link', {
+        opacity: 0,
+        x: 50,
+        stagger: 0.1,
+        duration: 0.4,
+        ease: 'power3.out',
+        delay: 0.2
+      });
+    } else {
+      mobileMenu?.classList.add('translate-x-full');
+      mobileMenuBtn.setAttribute('aria-expanded', 'false');
+      gsap.to(spans[0], { rotation: 0, y: 0, duration: 0.3 });
+      gsap.to(spans[1], { opacity: 1, duration: 0.3 });
+      gsap.to(spans[2], { rotation: 0, y: 0, duration: 0.3 });
+    }
+  });
+
+  // Close mobile menu on link click
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      isMenuOpen = false;
+      mobileMenu?.classList.add('translate-x-full');
+      const spans = mobileMenuBtn?.querySelectorAll('span');
+      if (spans) {
+        gsap.to(spans[0], { rotation: 0, y: 0, duration: 0.3 });
+        gsap.to(spans[1], { opacity: 1, duration: 0.3 });
+        gsap.to(spans[2], { rotation: 0, y: 0, duration: 0.3 });
+      }
+    });
+  });
+</script>

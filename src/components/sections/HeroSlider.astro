@@ -1,0 +1,382 @@
+---
+/**
+ * HeroSlider - Container for hero slides with navigation controls
+ * Handles slide transitions, pagination, and auto-advance
+ */
+import HeroIntro from './HeroIntro.astro';
+import HeroRole from './HeroRole.astro';
+import HeroMentor from './HeroMentor.astro';
+import HeroSkills from './HeroSkills.astro';
+
+interface Props {
+  email?: string;
+  autoPlayInterval?: number;
+}
+
+const { email = 'hello@taniatello.com', autoPlayInterval = 6000 } = Astro.props;
+
+const slides = [
+  { id: 0, name: 'intro', label: 'Introduction', accentColor: 'bg-accent-pink' },
+  { id: 1, name: 'role', label: 'Role', accentColor: 'bg-accent-blue' },
+  { id: 2, name: 'mentor', label: 'Mentor', accentColor: 'bg-accent-purple' },
+  { id: 3, name: 'skills', label: 'Skills', accentColor: 'bg-accent-orange' },
+];
+---
+
+<div
+  id="hero-slider"
+  class="relative w-full h-screen overflow-hidden"
+  data-autoplay-interval={autoPlayInterval}
+>
+  <!-- Slides Container -->
+  <div id="slides-container" class="relative w-full h-full">
+    <HeroIntro />
+    <HeroRole />
+    <HeroMentor />
+    <HeroSkills />
+  </div>
+
+  <!-- Slide Controls / Pagination Dots -->
+  <div class="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+    {slides.map((slide, index) => (
+      <button
+        class:list={[
+          'slide-dot rounded-full transition-all duration-300 cursor-pointer hover:scale-110',
+          index === 0 ? 'w-[42px] h-[10px] bg-accent-pink' : 'w-[10px] h-[10px] bg-brand-dark/40'
+        ]}
+        data-slide-index={index}
+        aria-label={`Go to ${slide.label} slide`}
+        aria-current={index === 0 ? 'true' : 'false'}
+      />
+    ))}
+  </div>
+
+  <!-- Progress Bar (shows auto-advance progress) -->
+  <div class="absolute bottom-0 left-0 w-full h-1 bg-brand-dark/10 z-20">
+    <div
+      id="slide-progress"
+      class="h-full bg-accent-pink transition-colors duration-300"
+      style="width: 0%"
+    ></div>
+  </div>
+
+  <!-- Email Contact -->
+  <a
+    href={`mailto:${email}`}
+    class="absolute bottom-12 right-12 z-20 text-brand-dark text-[13px] font-sans tracking-[1px] uppercase hover:opacity-70 transition-opacity hidden md:block"
+  >
+    {email}
+  </a>
+
+  <!-- Navigation Arrows -->
+  <button
+    id="prev-slide"
+    class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/20 backdrop-blur-sm opacity-0 hover:opacity-100 focus:opacity-100 transition-opacity group"
+    aria-label="Previous slide"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-brand-dark group-hover:scale-110 transition-transform">
+      <path d="M15 18L9 12L15 6" />
+    </svg>
+  </button>
+
+  <button
+    id="next-slide"
+    class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/20 backdrop-blur-sm opacity-0 hover:opacity-100 focus:opacity-100 transition-opacity group"
+    aria-label="Next slide"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-brand-dark group-hover:scale-110 transition-transform">
+      <path d="M9 18L15 12L9 6" />
+    </svg>
+  </button>
+
+  <!-- Pause/Play Button -->
+  <button
+    id="autoplay-toggle"
+    class="absolute bottom-12 left-12 z-20 p-2 rounded-full bg-white/20 backdrop-blur-sm opacity-0 hover:opacity-100 focus:opacity-100 transition-opacity hidden md:flex items-center justify-center"
+    aria-label="Pause auto-advance"
+    data-playing="true"
+  >
+    <svg id="pause-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="text-brand-dark">
+      <rect x="6" y="4" width="4" height="16" />
+      <rect x="14" y="4" width="4" height="16" />
+    </svg>
+    <svg id="play-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="text-brand-dark hidden">
+      <path d="M8 5v14l11-7z" />
+    </svg>
+  </button>
+</div>
+
+<script>
+  import gsap from 'gsap';
+
+  const slider = document.getElementById('hero-slider');
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots = document.querySelectorAll('.slide-dot');
+  const prevBtn = document.getElementById('prev-slide');
+  const nextBtn = document.getElementById('next-slide');
+  const progressBar = document.getElementById('slide-progress');
+  const autoplayToggle = document.getElementById('autoplay-toggle');
+  const pauseIcon = document.getElementById('pause-icon');
+  const playIcon = document.getElementById('play-icon');
+
+  let currentSlide = 0;
+  const totalSlides = slides.length;
+  const autoPlayInterval = parseInt(slider?.dataset.autoplayInterval || '6000');
+  let isAutoPlaying = true;
+  let autoPlayTimer: ReturnType<typeof setInterval> | null = null;
+  let progressAnimation: gsap.core.Tween | null = null;
+
+  // Accent colors for each slide (matching tailwind classes)
+  const accentColors = ['bg-accent-pink', 'bg-accent-blue', 'bg-accent-purple', 'bg-accent-orange'];
+
+  // Check for reduced motion preference
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function updateSlide(index: number, direction: 'next' | 'prev' = 'next') {
+    if (index < 0 || index >= totalSlides || index === currentSlide) return;
+
+    const oldSlide = currentSlide;
+    currentSlide = index;
+
+    // Animate slides
+    slides.forEach((slide, i) => {
+      const slideElement = slide as HTMLElement;
+
+      if (i === index) {
+        slideElement.setAttribute('data-active', 'true');
+
+        if (!prefersReducedMotion) {
+          gsap.fromTo(slideElement,
+            { opacity: 0, x: direction === 'next' ? 100 : -100 },
+            { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out' }
+          );
+        }
+      } else if (i === oldSlide) {
+        if (!prefersReducedMotion) {
+          gsap.to(slideElement, {
+            opacity: 0,
+            x: direction === 'next' ? -50 : 50,
+            duration: 0.4,
+            ease: 'power2.in',
+            onComplete: () => {
+              slideElement.setAttribute('data-active', 'false');
+              gsap.set(slideElement, { x: 0 });
+            }
+          });
+        } else {
+          slideElement.setAttribute('data-active', 'false');
+        }
+      }
+    });
+
+    // Update dots
+    dots.forEach((dot, i) => {
+      const dotElement = dot as HTMLElement;
+
+      // Remove all accent colors
+      accentColors.forEach(color => dotElement.classList.remove(color));
+
+      if (i === index) {
+        dotElement.classList.remove('w-[10px]', 'bg-brand-dark/40');
+        dotElement.classList.add('w-[42px]', accentColors[index]);
+        dotElement.setAttribute('aria-current', 'true');
+      } else {
+        dotElement.classList.remove('w-[42px]');
+        dotElement.classList.add('w-[10px]', 'bg-brand-dark/40');
+        dotElement.setAttribute('aria-current', 'false');
+      }
+    });
+
+    // Update progress bar color
+    if (progressBar) {
+      accentColors.forEach(color => progressBar.classList.remove(color));
+      progressBar.classList.add(accentColors[index]);
+    }
+
+    // Restart progress animation
+    if (isAutoPlaying) {
+      startProgressAnimation();
+    }
+  }
+
+  function startProgressAnimation() {
+    if (progressAnimation) {
+      progressAnimation.kill();
+    }
+
+    if (progressBar && !prefersReducedMotion) {
+      gsap.set(progressBar, { width: '0%' });
+      progressAnimation = gsap.to(progressBar, {
+        width: '100%',
+        duration: autoPlayInterval / 1000,
+        ease: 'none'
+      });
+    }
+  }
+
+  function startAutoPlay() {
+    if (autoPlayTimer) {
+      clearInterval(autoPlayTimer);
+    }
+
+    isAutoPlaying = true;
+    startProgressAnimation();
+
+    autoPlayTimer = setInterval(() => {
+      const nextIndex = (currentSlide + 1) % totalSlides;
+      updateSlide(nextIndex, 'next');
+    }, autoPlayInterval);
+  }
+
+  function stopAutoPlay() {
+    if (autoPlayTimer) {
+      clearInterval(autoPlayTimer);
+      autoPlayTimer = null;
+    }
+
+    if (progressAnimation) {
+      progressAnimation.pause();
+    }
+
+    isAutoPlaying = false;
+  }
+
+  function toggleAutoPlay() {
+    if (isAutoPlaying) {
+      stopAutoPlay();
+      if (pauseIcon) pauseIcon.classList.add('hidden');
+      if (playIcon) playIcon.classList.remove('hidden');
+      autoplayToggle?.setAttribute('aria-label', 'Resume auto-advance');
+      autoplayToggle?.setAttribute('data-playing', 'false');
+    } else {
+      startAutoPlay();
+      if (pauseIcon) pauseIcon.classList.remove('hidden');
+      if (playIcon) playIcon.classList.add('hidden');
+      autoplayToggle?.setAttribute('aria-label', 'Pause auto-advance');
+      autoplayToggle?.setAttribute('data-playing', 'true');
+    }
+  }
+
+  // Dot click handlers
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      const direction = index > currentSlide ? 'next' : 'prev';
+      updateSlide(index, direction);
+      // Reset autoplay timer on manual navigation
+      if (isAutoPlaying) {
+        startAutoPlay();
+      }
+    });
+  });
+
+  // Arrow button handlers
+  prevBtn?.addEventListener('click', () => {
+    const newIndex = currentSlide > 0 ? currentSlide - 1 : totalSlides - 1;
+    updateSlide(newIndex, 'prev');
+    if (isAutoPlaying) startAutoPlay();
+  });
+
+  nextBtn?.addEventListener('click', () => {
+    const newIndex = (currentSlide + 1) % totalSlides;
+    updateSlide(newIndex, 'next');
+    if (isAutoPlaying) startAutoPlay();
+  });
+
+  // Autoplay toggle
+  autoplayToggle?.addEventListener('click', toggleAutoPlay);
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+      const newIndex = currentSlide > 0 ? currentSlide - 1 : totalSlides - 1;
+      updateSlide(newIndex, 'prev');
+      if (isAutoPlaying) startAutoPlay();
+    } else if (e.key === 'ArrowRight') {
+      const newIndex = (currentSlide + 1) % totalSlides;
+      updateSlide(newIndex, 'next');
+      if (isAutoPlaying) startAutoPlay();
+    } else if (e.key === ' ' || e.key === 'Spacebar') {
+      e.preventDefault();
+      toggleAutoPlay();
+    }
+  });
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  slider?.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  slider?.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, { passive: true });
+
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        // Swipe left -> next slide
+        const newIndex = (currentSlide + 1) % totalSlides;
+        updateSlide(newIndex, 'next');
+      } else {
+        // Swipe right -> prev slide
+        const newIndex = currentSlide > 0 ? currentSlide - 1 : totalSlides - 1;
+        updateSlide(newIndex, 'prev');
+      }
+      if (isAutoPlaying) startAutoPlay();
+    }
+  }
+
+  // Pause on hover (optional UX improvement)
+  slider?.addEventListener('mouseenter', () => {
+    if (isAutoPlaying && progressAnimation) {
+      progressAnimation.pause();
+    }
+  });
+
+  slider?.addEventListener('mouseleave', () => {
+    if (isAutoPlaying && progressAnimation) {
+      progressAnimation.resume();
+    }
+  });
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    // Set initial slide states
+    slides.forEach((slide, i) => {
+      const slideElement = slide as HTMLElement;
+      if (i === 0) {
+        slideElement.setAttribute('data-active', 'true');
+      } else {
+        slideElement.setAttribute('data-active', 'false');
+      }
+    });
+
+    // Start autoplay
+    if (!prefersReducedMotion) {
+      startAutoPlay();
+    }
+  });
+
+  // Respect reduced motion preference
+  if (prefersReducedMotion) {
+    gsap.globalTimeline.timeScale(0);
+    stopAutoPlay();
+    if (progressBar) {
+      progressBar.style.display = 'none';
+    }
+  }
+
+  // Cleanup on page navigation (for Astro view transitions)
+  document.addEventListener('astro:before-swap', () => {
+    stopAutoPlay();
+    if (progressAnimation) {
+      progressAnimation.kill();
+    }
+  });
+</script>

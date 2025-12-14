@@ -1,0 +1,35 @@
+---
+/**
+ * Cross - Plus/cross decoration from Figma design
+ */
+interface Props {
+  class?: string;
+  size?: number;
+  color?: string;
+  strokeWidth?: number;
+}
+
+const {
+  class: className = '',
+  size = 44,
+  color = '#673437',
+  strokeWidth = 2.5
+} = Astro.props;
+---
+
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 44 44"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  class={className}
+  aria-hidden="true"
+>
+  <path
+    d="M22 0V44M0 22H44"
+    stroke={color}
+    stroke-width={strokeWidth}
+    stroke-linecap="round"
+  />
+</svg>
