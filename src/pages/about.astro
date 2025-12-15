@@ -10,7 +10,7 @@ const pageDescription = "Learn more about Tania Tello - Sr. Front End Engineer p
 <Layout title={pageTitle} description={pageDescription}>
   <Header activePage="about" />
 
-  <main id="main-content" class="infinite-scroll-container">
+  <main id="main-content">
     <AboutHero />
   </main>
   <a
@@ -20,33 +20,6 @@ const pageDescription = "Learn more about Tania Tello - Sr. Front End Engineer p
     Skip to main content
   </a>
 </Layout>
-
-<script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (!prefersReducedMotion) {
-    const container = document.querySelector('.infinite-scroll-container');
-
-    if (container) {
-      ScrollTrigger.create({
-        trigger: container,
-        start: 'bottom bottom',
-        onEnter: () => {
-          gsap.to(window, {
-            duration: 0.8,
-            scrollTo: { y: 0, autoKill: false },
-            ease: 'power2.inOut'
-          });
-        }
-      });
-    }
-  }
-</script>
 
 <style>
   .sr-only {
@@ -59,9 +32,5 @@ const pageDescription = "Learn more about Tania Tello - Sr. Front End Engineer p
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border-width: 0;
-  }
-
-  .infinite-scroll-container {
-    min-height: 100vh;
   }
 </style>

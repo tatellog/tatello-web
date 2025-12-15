@@ -1,0 +1,45 @@
+---
+/**
+ * XDecoration - X-shaped decorative element
+ * Used for visual accents throughout the site
+ */
+interface Props {
+  class?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  color?: 'pink' | 'coral';
+}
+
+const { class: className = '', size = 'md', color = 'coral' } = Astro.props;
+
+const sizeMap = {
+  sm: 'w-4 h-4',
+  md: 'w-6 h-6',
+  lg: 'w-8 h-8',
+  xl: 'w-12 h-12'
+};
+
+const colorMap = {
+  pink: '#FFC4C8',
+  coral: '#E8A5A5'
+};
+---
+
+<svg
+  class:list={['x-decoration', sizeMap[size], className]}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke={colorMap[color]}
+  stroke-width="2.5"
+  stroke-linecap="round"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+>
+  <line x1="4" y1="4" x2="20" y2="20" />
+  <line x1="20" y1="4" x2="4" y2="20" />
+</svg>
+
+<style>
+  .x-decoration {
+    flex-shrink: 0;
+  }
+</style>

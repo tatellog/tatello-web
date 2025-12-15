@@ -1,0 +1,179 @@
+---
+import { skills, constellationLines } from '@/data/skills';
+import type { Skill } from '@/data/skills';
+
+const sizeMap = {
+  sm: { star: 16, tooltip: 'text-xs' },
+  md: { star: 24, tooltip: 'text-sm' },
+  lg: { star: 32, tooltip: 'text-base' },
+};
+---
+
+<div class="skills-constellation relative w-full h-full">
+  <svg
+    class="constellation-lines absolute inset-0 w-full h-full"
+    viewBox="0 0 100 70"
+    preserveAspectRatio="xMidYMid slice"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {constellationLines.map((line, index) => {
+      const fromSkill = skills.find(s => s.id === line.from);
+      const toSkill = skills.find(s => s.id === line.to);
+      if (!fromSkill || !toSkill) return null;
+
+      return (
+        <line
+          class="constellation-line"
+          x1={fromSkill.x}
+          y1={fromSkill.y}
+          x2={toSkill.x}
+          y2={toSkill.y}
+          stroke="rgba(255, 255, 255, 0.3)"
+          stroke-width="0.15"
+          stroke-dasharray="0.5 0.5"
+          data-index={index}
+        />
+      );
+    })}
+  </svg>
+
+  <div class="stars-container absolute inset-0">
+    {skills.map((skill, index) => (
+      <div
+        class="skill-star absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer group"
+        style={`left: ${skill.x}%; top: ${skill.y}%;`}
+        data-skill={skill.id}
+        data-index={index}
+      >
+        <svg
+          class:list={[
+            'star-icon transition-transform duration-300 group-hover:scale-125',
+            skill.size === 'sm' ? 'w-4 h-4' : skill.size === 'md' ? 'w-6 h-6' : 'w-8 h-8'
+          ]}
+          viewBox="0 0 100 100"
+          fill={skill.color === 'gold' ? '#E8C872' : 'rgba(255, 255, 255, 0.8)'}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z" />
+        </svg>
+
+        <div
+          class:list={[
+            'skill-tooltip absolute left-1/2 -translate-x-1/2 -top-10 px-3 py-1.5 rounded-full',
+            'bg-white/95 text-brand-dark font-sans whitespace-nowrap',
+            'opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100',
+            'transition-all duration-200 pointer-events-none z-10',
+            'shadow-lg',
+            sizeMap[skill.size].tooltip
+          ]}
+        >
+          {skill.name}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .skill-star {
+    animation: float-star 4s ease-in-out infinite;
+    animation-delay: calc(var(--index, 0) * 0.2s);
+  }
+
+  @keyframes float-star {
+    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+    50% { transform: translate(-50%, -50%) translateY(-5px); }
+  }
+
+  .constellation-line {
+    stroke-dashoffset: 100;
+    animation: draw-line 1.5s ease-out forwards;
+    animation-delay: calc(var(--line-index, 0) * 0.1s);
+  }
+
+  @keyframes draw-line {
+    to { stroke-dashoffset: 0; }
+  }
+
+  .star-icon {
+    filter: drop-shadow(0 0 4px rgba(232, 200, 114, 0.5));
+  }
+
+  .skill-star:hover .star-icon {
+    filter: drop-shadow(0 0 12px rgba(232, 200, 114, 0.8));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skill-star {
+      animation: none;
+    }
+    .constellation-line {
+      animation: none;
+      stroke-dashoffset: 0;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!prefersReducedMotion) {
+    const stars = document.querySelectorAll('.skill-star');
+    const lines = document.querySelectorAll('.constellation-line');
+
+    gsap.set(stars, { opacity: 0, scale: 0 });
+    gsap.set(lines, { opacity: 0 });
+
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    tl.to(lines, {
+      opacity: 1,
+      duration: 0.5,
+      stagger: 0.05,
+    })
+    .to(stars, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.4,
+      stagger: {
+        each: 0.03,
+        from: 'random',
+      },
+      ease: 'back.out(1.7)',
+    }, '-=0.3');
+
+    stars.forEach((star, index) => {
+      const el = star as HTMLElement;
+      el.style.setProperty('--index', String(index));
+
+      gsap.to(star, {
+        y: `${-3 - Math.random() * 4}px`,
+        duration: 2 + Math.random() * 2,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: Math.random() * 2,
+      });
+    });
+
+    lines.forEach((line, index) => {
+      const el = line as SVGLineElement;
+      const length = Math.sqrt(
+        Math.pow(parseFloat(el.getAttribute('x2') || '0') - parseFloat(el.getAttribute('x1') || '0'), 2) +
+        Math.pow(parseFloat(el.getAttribute('y2') || '0') - parseFloat(el.getAttribute('y1') || '0'), 2)
+      );
+      el.style.strokeDasharray = `${length}`;
+      el.style.strokeDashoffset = `${length}`;
+
+      gsap.to(el, {
+        strokeDashoffset: 0,
+        duration: 1,
+        delay: 0.5 + index * 0.08,
+        ease: 'power2.out',
+      });
+    });
+  }
+</script>

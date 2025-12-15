@@ -139,23 +139,11 @@ const navItems = [
     }
   }) as EventListener);
 
-  ScrollTrigger.create({
-    start: 'top -100',
-    onUpdate: (self) => {
-      if (!header) return;
-
-      const scrollY = window.scrollY;
-      const direction = self.direction;
-
-      if (direction === 1 && scrollY > 100 && !isMenuOpen) {
-        gsap.to(header, { y: -100, duration: 0.3, ease: 'power2.out' });
-      } else if (direction === -1) {
-        gsap.to(header, { y: 0, duration: 0.3, ease: 'power2.out' });
-      }
-
-      lastScrollY = scrollY;
-    }
-  });
+  // Header always visible - no hide on scroll behavior
+  // This ensures navigation is always accessible
+  if (header) {
+    gsap.set(header, { y: 0 });
+  }
 
   mobileMenuBtn?.addEventListener('click', () => {
     isMenuOpen = !isMenuOpen;
