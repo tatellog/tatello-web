@@ -73,7 +73,7 @@ const {
       <!-- Title (starts TOP-RIGHT, moves DIAGONALLY to CENTER) -->
       <h1
         class="hero-title absolute whitespace-nowrap text-brand-brown text-center"
-        style="font-family: 'Stacion', serif; font-weight: 400; font-size: clamp(36px, 8vw, 100px); line-height: 1.1;"
+        style="font-family: 'Stacion', serif; font-weight: 400; font-size: clamp(36px, 10vw, 120px); line-height: 25px; letter-spacing: 0px;"
       >
         {title}
       </h1>
@@ -82,7 +82,10 @@ const {
       <XDecoration class="x-before-title absolute top-[54%] left-[8%] lg:left-[12%]" size="xl" color="coral" />
 
       <!-- Description (hidden initially, appears below title) -->
-      <div class="hero-description absolute top-[66%] left-1/2 -translate-x-1/2 text-brand-brown/80 text-center max-w-[300px] md:max-w-lg lg:max-w-xl text-base md:text-lg leading-relaxed">
+      <div
+        class="hero-description absolute top-[66%] left-1/2 -translate-x-1/2 text-brand-brown/80 text-center max-w-[300px] md:max-w-lg lg:max-w-xl"
+        style="font-family: 'GT Planar', sans-serif; font-weight: 400; font-size: 20px; line-height: 130%; letter-spacing: 0px;"
+      >
         <p>{description}</p>
       </div>
 
@@ -116,26 +119,31 @@ const {
     // ============================================
     // INITIAL STATE (scroll: 0%)
     // ============================================
-    // - Title: TOP-RIGHT, cut off (only partial text visible)
-    // - Penguin: centered, SMALLER
-    // - White circle: hidden (opacity: 0)
+    // - Title: TOP-RIGHT, fully visible
+    // - Penguin: centered
+    // - White circle: visible, subtle
     // - Description: hidden
     // - X decorations: hidden
 
-    gsap.set('.hero-title', { top: '18%', left: '55%', x: '0%' }); // Title TOP-RIGHT
-    gsap.set('.penguin-wrapper', { scale: 0.75 }); // Penguin starts smaller
-    gsap.set('.penguin-bg-circle', { opacity: 0, scale: 0.5 });
+    gsap.set('.hero-title', { top: '15%', right: '5%', left: 'auto', x: '0%' });
+    gsap.set('.penguin-wrapper', { scale: 1 });
+    gsap.set('.penguin-bg-circle', { opacity: 1, scale: 0.6, left: '70%', top: '25%' });
     gsap.set('.hero-description', { opacity: 0, y: 30 });
     gsap.set('.x-before-title', { opacity: 0 });
     gsap.set('.x-decoration-right', { opacity: 0 });
+    gsap.set('.section-label', { x: '-30%' });
+
+    // Círculos crema - estado inicial
+    gsap.set('.circle-bottom-left', { y: '15%', scale: 0.7 });
+    gsap.set('.circle-bottom-right', { y: '-20%', x: '15%' });
 
     // Entrance animation
     const entranceTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
     entranceTl
       .from('.hero-title', { opacity: 0, x: 30, duration: 1, delay: 0.2 })
+      .from('.penguin-bg-circle', { opacity: 0, scale: 0.4, duration: 0.8 }, '-=0.7')
       .from('.penguin-wrapper', { opacity: 0, y: 40, duration: 0.8 }, '-=0.5')
-      .from('.scroll-indicator', { opacity: 0, y: 20, duration: 0.6 }, '-=0.3')
-      .from('.section-label', { opacity: 0, y: 80, duration: 0.8 }, '-=0.4');
+      .from('.section-label', { opacity: 0, x: '-50%', duration: 0.8 }, '-=0.4');
 
     // ============================================
     // PARALLAX SCROLL ANIMATION
@@ -170,9 +178,10 @@ const {
       ease: 'none'
     }, 0);
 
-    // Circle behind penguin appears and grows
+    // Circle moves from right to center (behind penguin) and grows
     mainTl.to('.penguin-bg-circle', {
-      opacity: 1,
+      left: '50%',
+      top: '18%',
       scale: 1,
       duration: 0.5,
       ease: 'none'
@@ -192,28 +201,37 @@ const {
       ease: 'none'
     }, 0);
 
-    // Bottom cream circle moves up slightly
-    mainTl.to('.circle-bottom-right', {
-      y: '-5vh',
-      scale: 1.03,
+    // Círculo crema izquierdo vuelve a su posición y tamaño normal
+    mainTl.to('.circle-bottom-left', {
+      y: '0%',
+      scale: 1,
       duration: 0.5,
       ease: 'none'
     }, 0);
 
-    // Section label moves up
+    // Círculo crema derecho vuelve a su posición normal
+    mainTl.to('.circle-bottom-right', {
+      y: '0%',
+      x: '0%',
+      duration: 0.5,
+      ease: 'none'
+    }, 0);
+
+    // Section label moves from left to center and up
     mainTl.to('.section-label', {
+      x: '0%',
       y: '-10px',
       duration: 0.5,
       ease: 'none'
     }, 0);
 
-    // Scroll indicator fades out as soon as scrolling starts
+    // Scroll indicator fades out gradually as user scrolls
     mainTl.to('.scroll-indicator', {
       opacity: 0,
-      y: 10,
-      duration: 0.15,
+      y: 15,
+      duration: 0.35,
       ease: 'none'
-    }, 0);
+    }, 0.05);
 
     // --- 40% to 70% scroll: X decoration and Description appear ---
 
@@ -280,6 +298,7 @@ const {
     will-change: opacity, transform;
   }
 
+  .circle-bottom-left,
   .circle-bottom-right,
   .stars-left,
   .stars-right {
@@ -299,6 +318,7 @@ const {
     .x-before-title,
     .x-decoration-right,
     .scroll-indicator,
+    .circle-bottom-left,
     .circle-bottom-right,
     .stars-left,
     .stars-right {

@@ -17,7 +17,7 @@ const navItems = [
 <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-transform duration-300">
   <nav class="flex items-center justify-between px-8 lg:px-12 py-6 max-w-[1440px] mx-auto">
     <a href="/home" class="logo flex-shrink-0" aria-label="Home">
-      <Logo size={40} />
+      <Logo size={48} />
     </a>
 
     <div class="hidden md:flex items-center gap-8 lg:gap-12">
@@ -25,7 +25,7 @@ const navItems = [
         <a
           href={item.href}
           class:list={[
-            'nav-link relative text-brand-dark text-[17px] font-sans transition-all duration-300 px-5 py-2 rounded-full',
+            'nav-link relative text-brand-dark text-lg font-sans transition-all duration-300 px-5 py-2 rounded-full',
             activePage === item.id && 'nav-link-active'
           ]}
           aria-current={activePage === item.id ? 'page' : undefined}
@@ -38,7 +38,7 @@ const navItems = [
 
     <a
       href="#contact"
-      class="cta-button hidden md:flex items-center justify-center px-5 py-2 rounded-full text-brand-dark text-[17px] font-sans transition-all duration-300 hover:scale-105 bg-accent-pink"
+      class="cta-button hidden md:flex items-center justify-center px-5 py-2 rounded-full text-brand-dark text-lg font-sans transition-all duration-300 hover:scale-105 bg-accent-pink"
     >
       Reach Out!
     </a>
