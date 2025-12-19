@@ -2,7 +2,7 @@
 import Layout from '@/layouts/Layout.astro';
 import Header from '@/components/layout/Header.astro';
 import SkillsConstellation from '@/components/sections/SkillsConstellation.astro';
-import PenguinWaving from '@/components/icons/PenguinWaving.astro';
+import PenguinLogo from '@/components/icons/PenguinLogo.astro';
 import Arrow from '@/components/icons/Arrow.astro';
 
 const pageTitle = 'My Skills | Tatello';
@@ -12,30 +12,31 @@ const pageDescription = 'Explore my technical skills in React, TypeScript, and m
 <Layout title={pageTitle} description={pageDescription}>
   <Header />
 
-  <main id="main-content" class="relative min-h-screen bg-brand-dark overflow-hidden">
+  <main id="main-content" class="relative w-full h-screen bg-brand-dark overflow-hidden">
     <div class="absolute top-24 left-8 lg:left-12 z-20">
       <a
         href="/about"
-        class="back-link inline-flex items-center gap-2 text-accent-pink hover:text-accent-pink/80 transition-colors text-sm font-sans"
+        class="back-link inline-flex items-center gap-2 text-accent-pink hover:text-accent-pink/80 transition-colors"
+        style="font-family: 'Stacion', serif; font-weight: 400; font-size: 24px; line-height: 110%; letter-spacing: 0px;"
       >
-        <Arrow size={16} direction="left" />
-        <span class="underline underline-offset-2">back</span>
+        <Arrow size={20} direction="left" />
+        <span class="underline">back</span>
       </a>
     </div>
 
     <div class="absolute top-32 lg:top-36 left-8 lg:left-12 z-20">
-      <div class="flex items-end gap-4">
-        <h1 class="skills-title font-display text-white text-5xl md:text-6xl lg:text-7xl leading-none">
-          <span class="block">My</span>
-          <span class="block">Skills</span>
-        </h1>
-        <div class="penguin-mini mb-2">
-          <PenguinWaving width={80} height={60} class="w-16 md:w-20" />
-        </div>
-      </div>
+      <h1 class="skills-title text-white" style="font-family: 'Stacion', serif; font-weight: 400; font-size: clamp(48px, 8vw, 96px); line-height: 110%; letter-spacing: 0px;">
+        <span class="flex items-center gap-2">
+          <span>My</span>
+          <span class="penguin-mini inline-flex items-center">
+            <PenguinLogo width={70} height={52} class="w-14 md:w-16 lg:w-[70px]" />
+          </span>
+        </span>
+        <span class="block">Skills</span>
+      </h1>
     </div>
 
-    <div class="constellation-container absolute inset-0">
+    <div class="constellation-container absolute inset-0 z-10">
       <SkillsConstellation />
     </div>
 
@@ -57,8 +58,8 @@ const pageDescription = 'Explore my technical skills in React, TypeScript, and m
 
   .penguin-mini {
     opacity: 0;
-    transform: translateX(-20px);
-    animation: slideIn 0.6s ease-out 0.6s forwards;
+    transform: translateY(10px);
+    animation: fadeUp 0.6s ease-out 0.6s forwards;
   }
 
   @keyframes slideIn {

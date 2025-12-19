@@ -14,7 +14,7 @@ const navItems = [
 ];
 ---
 
-<header id="header" class="fixed top-0 left-0 right-0 z-50 transition-transform duration-300">
+<header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" data-theme="light">
   <nav class="flex items-center justify-between px-8 lg:px-12 py-6 max-w-[1440px] mx-auto">
     <a href="/home" class="logo flex-shrink-0" aria-label="Home">
       <Logo size={48} />
@@ -25,9 +25,10 @@ const navItems = [
         <a
           href={item.href}
           class:list={[
-            'nav-link relative text-brand-dark text-lg font-sans transition-all duration-300 px-5 py-2 rounded-full',
+            'nav-link relative transition-all duration-300 px-5 py-2 rounded-full',
             activePage === item.id && 'nav-link-active'
           ]}
+          style="font-family: 'GT Planar', sans-serif; font-weight: 400; font-size: 17px; line-height: 25px; letter-spacing: 0px;"
           aria-current={activePage === item.id ? 'page' : undefined}
           data-nav-id={item.id}
         >
@@ -38,7 +39,8 @@ const navItems = [
 
     <a
       href="#contact"
-      class="cta-button hidden md:flex items-center justify-center px-5 py-2 rounded-full text-brand-dark text-lg font-sans transition-all duration-300 hover:scale-105 bg-accent-pink"
+      class="cta-button hidden md:flex items-center justify-center px-5 py-2 rounded-full text-brand-dark transition-all duration-300 hover:scale-105 bg-accent-pink"
+      style="font-family: 'GT Planar', sans-serif; font-weight: 400; font-size: 17px; line-height: 25px; letter-spacing: 0px;"
     >
       Reach Out!
     </a>
@@ -49,9 +51,9 @@ const navItems = [
       aria-label="Toggle menu"
       aria-expanded="false"
     >
-      <span class="w-6 h-0.5 bg-brand-dark transition-transform origin-center"></span>
-      <span class="w-6 h-0.5 bg-brand-dark transition-opacity"></span>
-      <span class="w-6 h-0.5 bg-brand-dark transition-transform origin-center"></span>
+      <span class="hamburger-line w-6 h-0.5 transition-all origin-center"></span>
+      <span class="hamburger-line w-6 h-0.5 transition-all"></span>
+      <span class="hamburger-line w-6 h-0.5 transition-all origin-center"></span>
     </button>
   </nav>
 
@@ -64,16 +66,18 @@ const navItems = [
         <a
           href={item.href}
           class:list={[
-            'mobile-nav-link text-brand-dark text-2xl font-sans px-6 py-2 rounded-full transition-colors duration-300',
+            'mobile-nav-link text-brand-dark px-6 py-2 rounded-full transition-colors duration-300',
             activePage === item.id && 'mobile-nav-link-active'
           ]}
+          style="font-family: 'GT Planar', sans-serif; font-weight: 400; font-size: 24px; line-height: 32px; letter-spacing: 0px;"
         >
           {item.label}
         </a>
       ))}
       <a
         href="#contact"
-        class="mobile-cta-button mt-4 px-8 py-3 rounded-full text-brand-dark text-xl font-sans transition-colors duration-300 bg-accent-pink"
+        class="mobile-cta-button mt-4 px-8 py-3 rounded-full text-brand-dark transition-colors duration-300 bg-accent-pink"
+        style="font-family: 'GT Planar', sans-serif; font-weight: 400; font-size: 24px; line-height: 32px; letter-spacing: 0px;"
       >
         Reach Out!
       </a>
@@ -145,6 +149,72 @@ const navItems = [
     gsap.set(header, { y: 0 });
   }
 
+  // Dynamic theme detection based on background color
+  function updateHeaderTheme() {
+    if (!header) return;
+
+    const headerRect = header.getBoundingClientRect();
+    const headerMiddleY = headerRect.top + headerRect.height / 2;
+    const headerMiddleX = window.innerWidth / 2;
+
+    // Get element behind the header
+    header.style.pointerEvents = 'none';
+    const elementBehind = document.elementFromPoint(headerMiddleX, headerMiddleY);
+    header.style.pointerEvents = '';
+
+    if (!elementBehind) return;
+
+    // Get computed background color
+    let bgColor = '';
+    let currentEl: Element | null = elementBehind;
+
+    while (currentEl && currentEl !== document.body) {
+      const style = window.getComputedStyle(currentEl);
+      const bg = style.backgroundColor;
+
+      if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
+        bgColor = bg;
+        break;
+      }
+      currentEl = currentEl.parentElement;
+    }
+
+    // If no background found, check body
+    if (!bgColor) {
+      bgColor = window.getComputedStyle(document.body).backgroundColor;
+    }
+
+    // Parse RGB values
+    const rgbMatch = bgColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (rgbMatch) {
+      const r = parseInt(rgbMatch[1]);
+      const g = parseInt(rgbMatch[2]);
+      const b = parseInt(rgbMatch[3]);
+
+      // Calculate luminance
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+      // Switch theme based on luminance
+      const isDark = luminance < 0.5;
+      const currentTheme = header.dataset.theme;
+      const newTheme = isDark ? 'dark' : 'light';
+
+      // Always apply the class (even on first run)
+      header.classList.remove('header-light', 'header-dark');
+      header.classList.add(`header-${newTheme}`);
+      header.dataset.theme = newTheme;
+    }
+  }
+
+  // Update on scroll and resize
+  window.addEventListener('scroll', updateHeaderTheme, { passive: true });
+  window.addEventListener('resize', updateHeaderTheme, { passive: true });
+
+  // Initial update
+  updateHeaderTheme();
+  setTimeout(updateHeaderTheme, 100);
+  setTimeout(updateHeaderTheme, 500);
+
   mobileMenuBtn?.addEventListener('click', () => {
     isMenuOpen = !isMenuOpen;
     const spans = mobileMenuBtn.querySelectorAll('span');
@@ -193,11 +263,59 @@ const navItems = [
     --nav-active-bg: var(--color-accent-pink);
   }
 
-  .nav-link:hover:not(.nav-link-active) {
+  /* Header is transparent - takes background from page */
+  #header {
+    background-color: transparent;
+  }
+
+  /* Light theme (default) - for light backgrounds */
+  .header-light .nav-link {
+    color: var(--color-brand-dark, #231F20);
+  }
+
+  .header-light .hamburger-line {
+    background-color: var(--color-brand-dark, #231F20);
+  }
+
+  /* Dark theme - for dark backgrounds */
+  .header-dark .nav-link {
+    color: white;
+  }
+
+  .header-dark .nav-link:hover {
+    background-color: white;
+    color: var(--color-brand-dark, #231F20) !important;
+  }
+
+  .header-dark .nav-link-active {
+    background-color: white;
+    color: var(--color-brand-dark, #231F20);
+  }
+
+  .header-dark .cta-button {
+    background-color: white !important;
+    color: var(--color-brand-dark, #231F20);
+  }
+
+  .header-dark .hamburger-line {
+    background-color: white;
+  }
+
+  /* Logo color change for dark theme */
+  .header-dark .logo svg path:first-child {
+    fill: white;
+  }
+
+  .header-dark .logo svg path[fill="#231F20"]:not(:first-child) {
+    fill: white;
+  }
+
+  /* Light theme hover */
+  .header-light .nav-link:hover:not(.nav-link-active) {
     color: var(--nav-hover-color);
   }
 
-  .nav-link-active {
+  .header-light .nav-link-active {
     background-color: var(--nav-active-bg);
   }
 
