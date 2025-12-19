@@ -1,0 +1,37 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Header from '@/components/layout/Header.astro';
+import HobbiesSlider from '@/components/sections/HobbiesSlider.astro';
+
+const pageTitle = 'My Hobbies | Tatello';
+const pageDescription = "Discover Tania Tello's hobbies and passions beyond coding - mentoring, travel, family, painting, and her beloved husky Luna.";
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <Header activePage="hobbies" />
+
+  <main id="main-content">
+    <HobbiesSlider />
+  </main>
+
+  <a
+    href="#main-content"
+    class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent-pink focus:text-brand-brown focus:rounded-lg"
+  >
+    Skip to main content
+  </a>
+</Layout>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+</style>
