@@ -115,6 +115,18 @@
     opacity: 0;
     transform-origin: center;
     transform-box: fill-box;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+  }
+
+  .star.gold:hover {
+    filter: drop-shadow(0 0 12px rgba(244, 195, 72, 1)) drop-shadow(0 0 20px rgba(244, 195, 72, 0.6));
+  }
+
+  .star.white:hover,
+  .star.white-large:hover {
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 1)) drop-shadow(0 0 16px rgba(255, 255, 255, 0.7));
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -231,5 +243,6 @@
         delay: 2 + Math.random() * 1.5,
       });
     });
+
   }
 </script>
