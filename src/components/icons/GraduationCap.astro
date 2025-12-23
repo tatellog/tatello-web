@@ -7,17 +7,20 @@ interface Props {
   size?: number;
 }
 
-const { class: className = '', size = 152 } = Astro.props;
-const width = Math.round(size * (261 / 152));
+const { class: className = '', size } = Astro.props;
+
+// Calculate dimensions only if size is provided
+const svgWidth = size ? Math.round(size * (261 / 152)) : undefined;
+const svgHeight = size;
 ---
 
 <svg
-  width={width}
-  height={size}
+  width={svgWidth}
+  height={svgHeight}
   viewBox="0 0 261 152"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
-  class={className}
+  class:list={[className, !size && 'w-full h-full']}
   aria-label="Graduation Cap"
 >
   <g clip-path="url(#clip0_gradcap)">

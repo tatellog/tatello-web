@@ -12,22 +12,23 @@ interface Props {
 
 const {
   class: className = '',
-  size = 160,
+  size,
   color = '#231F20',
   strokeWidth = 2
 } = Astro.props;
 
-// Calculate height based on original aspect ratio (161:163)
-const height = Math.round(size * (163 / 161));
+// Calculate dimensions only if size is provided
+const svgWidth = size;
+const svgHeight = size ? Math.round(size * (163 / 161)) : undefined;
 ---
 
 <svg
-  width={size}
-  height={height}
+  width={svgWidth}
+  height={svgHeight}
   viewBox="0 0 161 163"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
-  class={className}
+  class:list={[className, !size && 'w-full h-full']}
   aria-hidden="true"
 >
   <g clip-path="url(#clip0_python)">

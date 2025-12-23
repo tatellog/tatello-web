@@ -12,18 +12,27 @@ interface Props {
 
 const { data, isActive = false } = Astro.props;
 
-const techLogos = [
-  { src: '/images/tech/redux.svg', alt: 'Redux', class: 'top-[120px] left-[35%] w-[50px]' },
-  { src: '/images/tech/react.svg', alt: 'React', class: 'top-[100px] left-[50%] w-[60px]' },
-  { src: '/images/tech/cypress.svg', alt: 'Cypress', class: 'top-[130px] right-[25%] w-[120px]' },
-  { src: '/images/tech/testing.svg', alt: 'Testing Library', class: 'top-[160px] right-[15%] w-[60px]' },
-  { src: '/images/tech/javascript.svg', alt: 'JavaScript', class: 'top-[220px] left-[18%] w-[55px]' },
-  { src: '/images/tech/typescript.svg', alt: 'TypeScript', class: 'top-[250px] right-[20%] w-[55px]' },
-  { src: '/images/tech/testing.svg', alt: 'E2E Testing', class: 'left-[10%] top-[45%] w-[100px]' },
-  { src: '/images/tech/graphql.svg', alt: 'GraphQL', class: 'right-[10%] top-[55%] w-[55px]' },
-  { src: '/images/tech/nextjs.svg', alt: 'Next.js', class: 'bottom-[25%] left-[10%] w-[110px]' },
-  { src: '/images/tech/python.svg', alt: 'Python', class: 'bottom-[20%] left-[30%] w-[50px]' },
-  { src: '/images/tech/nodejs.svg', alt: 'Node.js', class: 'bottom-[22%] right-[20%] w-[55px]' },
+const techLogosDesktop = [
+  { src: '/images/tech/redux.svg', alt: 'Redux', class: 'top-[120px] left-[35%] w-[40px] lg:w-[50px]' },
+  { src: '/images/tech/react.svg', alt: 'React', class: 'top-[100px] left-[50%] w-[48px] lg:w-[60px]' },
+  { src: '/images/tech/cypress.svg', alt: 'Cypress', class: 'top-[130px] right-[25%] w-[80px] lg:w-[120px]' },
+  { src: '/images/tech/testing.svg', alt: 'Testing Library', class: 'top-[160px] right-[15%] w-[48px] lg:w-[60px]' },
+  { src: '/images/tech/javascript.svg', alt: 'JavaScript', class: 'top-[220px] left-[18%] w-[44px] lg:w-[55px]' },
+  { src: '/images/tech/typescript.svg', alt: 'TypeScript', class: 'top-[250px] right-[20%] w-[44px] lg:w-[55px]' },
+  { src: '/images/tech/testing.svg', alt: 'E2E Testing', class: 'left-[10%] top-[45%] w-[70px] lg:w-[100px]' },
+  { src: '/images/tech/graphql.svg', alt: 'GraphQL', class: 'right-[10%] top-[55%] w-[44px] lg:w-[55px]' },
+  { src: '/images/tech/nextjs.svg', alt: 'Next.js', class: 'bottom-[25%] left-[10%] w-[80px] lg:w-[110px]' },
+  { src: '/images/tech/python.svg', alt: 'Python', class: 'bottom-[20%] left-[30%] w-[40px] lg:w-[50px]' },
+  { src: '/images/tech/nodejs.svg', alt: 'Node.js', class: 'bottom-[22%] right-[20%] w-[44px] lg:w-[55px]' },
+];
+
+const techLogosMobile = [
+  { src: '/images/tech/react.svg', alt: 'React', class: 'top-[15%] left-[8%] w-[32px] sm:w-[40px]' },
+  { src: '/images/tech/typescript.svg', alt: 'TypeScript', class: 'top-[12%] right-[10%] w-[28px] sm:w-[36px]' },
+  { src: '/images/tech/javascript.svg', alt: 'JavaScript', class: 'top-[22%] right-[25%] w-[26px] sm:w-[32px]' },
+  { src: '/images/tech/nextjs.svg', alt: 'Next.js', class: 'bottom-[18%] left-[5%] w-[50px] sm:w-[60px]' },
+  { src: '/images/tech/nodejs.svg', alt: 'Node.js', class: 'bottom-[20%] right-[8%] w-[32px] sm:w-[40px]' },
+  { src: '/images/tech/graphql.svg', alt: 'GraphQL', class: 'bottom-[28%] right-[28%] w-[28px] sm:w-[34px]' },
 ];
 ---
 
@@ -38,49 +47,47 @@ const techLogos = [
 >
   {data.id === 'intro' && (
     <>
-      <div class="sparkles-container absolute top-[35%] left-[15%] md:left-[20%] lg:left-[25%] pointer-events-none">
-        <svg class="decoration-sparkle w-16 h-16 md:w-20 md:h-20 absolute -top-4 -left-4" viewBox="0 0 100 100" fill="none">
+      <div class="sparkles-container absolute top-[30%] sm:top-[35%] left-[8%] sm:left-[15%] md:left-[20%] lg:left-[25%] pointer-events-none">
+        <svg class="decoration-sparkle w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 absolute -top-2 sm:-top-4 -left-2 sm:-left-4" viewBox="0 0 100 100" fill="none">
           <path d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z" fill="#ffc4c8"/>
         </svg>
-        <svg class="decoration-sparkle w-8 h-8 md:w-10 md:h-10 absolute -top-12 left-8" viewBox="0 0 100 100" fill="none">
+        <svg class="decoration-sparkle w-5 h-5 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 absolute -top-8 sm:-top-12 left-6 sm:left-8" viewBox="0 0 100 100" fill="none">
           <path d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z" fill="#ffc4c8"/>
         </svg>
-        <svg class="decoration-sparkle w-5 h-5 md:w-6 md:h-6 absolute top-0 left-16" viewBox="0 0 100 100" fill="none">
+        <svg class="decoration-sparkle w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 absolute top-0 left-12 sm:left-16" viewBox="0 0 100 100" fill="none">
           <path d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z" fill="#ffc4c8"/>
         </svg>
       </div>
 
-      <div class="decoration-icon absolute bottom-[20%] left-[10%] md:left-[15%] pointer-events-none hidden md:block">
-        <Python size={120} color="#ffc4c8" strokeWidth={2} class="w-[100px] md:w-[130px]" />
+      <div class="decoration-icon absolute bottom-[15%] sm:bottom-[20%] left-[5%] sm:left-[10%] md:left-[15%] pointer-events-none">
+        <Python color="#ffc4c8" strokeWidth={2} class="w-[60px] h-[61px] sm:w-[80px] sm:h-[81px] md:w-[100px] md:h-[101px] lg:w-[130px] lg:h-[132px]" />
       </div>
 
-      <div class="decoration-icon react-spin absolute top-[38%] right-[18%] md:right-[22%] lg:right-[28%] pointer-events-none hidden lg:block" data-icon="ReactLogo">
-        <ReactLogo size={100} class="w-[80px] h-[70px] md:w-[100px] md:h-[88px]" />
+      <div class="decoration-icon react-spin absolute top-[32%] sm:top-[38%] right-[8%] sm:right-[18%] md:right-[22%] lg:right-[28%] pointer-events-none" data-icon="ReactLogo">
+        <ReactLogo class="w-[50px] h-[44px] sm:w-[65px] sm:h-[57px] md:w-[80px] md:h-[70px] lg:w-[100px] lg:h-[88px]" />
       </div>
     </>
   )}
 
   {data.id === 'role' && (
     <>
-      <div class="absolute top-[15%] md:top-[12%] left-1/2 -translate-x-1/2 flex items-center gap-4 md:gap-6 pointer-events-none">
-        <svg class="decoration-sparkle w-6 h-6 hidden md:block" viewBox="0 0 100 100" fill="none">
+      <div class="absolute top-[12%] sm:top-[15%] md:top-[12%] left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-4 md:gap-6 pointer-events-none">
+        <svg class="decoration-sparkle w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" viewBox="0 0 100 100" fill="none">
           <path d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z" fill="#61dafb"/>
         </svg>
         <div class="role-react-logo" data-icon="ReactLogo">
           <svg
-            width="135"
-            height="120"
             viewBox="0 0 153 136"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class="w-[80px] h-[70px] md:w-[120px] md:h-[105px] role-react-spin"
+            class="w-[60px] h-[53px] sm:w-[80px] sm:h-[70px] md:w-[100px] md:h-[88px] lg:w-[120px] lg:h-[105px] role-react-spin"
             aria-label="React"
           >
             <path d="M76.5036 81.617C84.0474 81.617 90.1629 75.5204 90.1629 68C90.1629 60.4795 84.0474 54.383 76.5036 54.383C68.9597 54.383 62.8442 60.4795 62.8442 68C62.8442 75.5204 68.9597 81.617 76.5036 81.617Z" fill="#61DAFB" stroke="#231F20" stroke-width="2" stroke-miterlimit="10"/>
             <path d="M129.224 45.9538C126.335 44.8568 123.239 43.8589 119.995 42.9671C120.84 39.7186 121.528 36.5479 122.018 33.5046C124.538 17.8281 121.833 6.84389 114.4 2.56912C106.974 -1.70565 96.0696 1.45089 83.7166 11.4655C81.317 13.4118 78.9032 15.5845 76.5036 17.9413C74.104 15.5845 71.6972 13.4118 69.2905 11.4655C56.9304 1.45089 46.0328 -1.71273 38.6068 2.56912C31.1737 6.84389 28.4688 17.8351 30.9891 33.5046C31.4789 36.5479 32.1605 39.7186 33.0124 42.9671C29.768 43.8589 26.6726 44.8568 23.7831 45.9538C8.90271 51.6157 0.709961 59.4434 0.709961 68C0.709961 76.5566 8.90271 84.3843 23.776 90.0462C26.6655 91.1432 29.7609 92.1411 33.0053 93.0329C32.1605 96.2814 31.4718 99.4521 30.982 102.495C28.4617 118.172 31.1665 129.156 38.5997 133.431C40.7579 134.677 43.2143 135.292 45.9121 135.292C52.4933 135.292 60.5227 131.64 69.2834 124.542C71.683 122.595 74.0969 120.423 76.4965 118.066C78.8961 120.423 81.3028 122.595 83.7095 124.542C92.4702 131.64 100.5 135.292 107.081 135.292C109.779 135.292 112.235 134.677 114.393 133.431C121.826 129.156 124.531 118.165 122.011 102.495C121.521 99.4521 120.84 96.2814 119.988 93.0329C123.232 92.1411 126.327 91.1432 129.217 90.0462C144.09 84.3843 152.283 76.5566 152.283 68C152.283 59.4434 144.09 51.6157 129.217 45.9538H129.224ZM107.074 5.67612C108.905 5.67612 110.538 6.06537 111.916 6.85805C118.447 10.6162 119.917 23.7519 115.224 41.7569C108.536 40.1998 101.273 39.0675 93.6629 38.3809C89.2613 32.1457 84.6466 26.4413 79.9468 21.4517C90.4398 11.147 100.216 5.67612 107.081 5.67612H107.074ZM98.5899 80.7111C96.0838 85.0354 93.5138 89.0978 90.9154 92.8913C86.3221 93.2381 81.5087 93.4222 76.5036 93.4222C71.4985 93.4222 66.685 93.2381 62.0917 92.8913C59.4933 89.0908 56.9233 85.0354 54.4172 80.7111C51.9111 76.3868 49.6748 72.1403 47.6727 68C49.6748 63.8597 51.9111 59.6133 54.4172 55.2889C56.9233 50.9646 59.4933 46.9022 62.0917 43.1087C66.685 42.7619 71.4985 42.5779 76.5036 42.5779C81.5087 42.5779 86.3221 42.7619 90.9154 43.1087C93.5138 46.9093 96.0838 50.9646 98.5899 55.2889C101.096 59.6133 103.332 63.8597 105.334 68C103.332 72.1403 101.096 76.3868 98.5899 80.7111ZM107.997 73.7894C110.403 79.2885 112.363 84.5612 113.882 89.5154C108.813 90.6832 103.261 91.6316 97.2765 92.3039C99.2076 89.3597 101.082 86.3164 102.899 83.1882C104.71 80.067 106.406 76.9247 108.004 73.7894H107.997ZM76.5036 111.024C72.9538 107.237 69.3615 102.913 65.7834 98.0862C69.3047 98.2773 72.8829 98.3764 76.5036 98.3764C80.1243 98.3764 83.7024 98.2773 87.2237 98.0862C83.6527 102.913 80.0533 107.237 76.5036 111.024ZM55.7306 92.3039C49.7458 91.6316 44.194 90.6832 39.125 89.5154C40.6443 84.5612 42.5966 79.2885 45.0105 73.7894C46.6007 76.9247 48.3046 80.067 50.1149 83.1882C51.9253 86.3164 53.8067 89.3597 55.7377 92.3039H55.7306ZM45.0105 62.2107C42.6037 56.7115 40.6443 51.4388 39.125 46.4846C44.194 45.3168 49.7458 44.3685 55.7306 43.6961C53.7996 46.6403 51.9253 49.6836 50.1079 52.8118C48.2975 55.933 46.6007 59.0754 45.0034 62.2107H45.0105ZM76.5036 24.9763C80.0533 28.7627 83.6527 33.087 87.2237 37.9138C83.7024 37.7227 80.1243 37.6166 76.5036 37.6166C72.8829 37.6166 69.3047 37.7157 65.7834 37.9138C69.3544 33.087 72.9538 28.7627 76.5036 24.9763ZM102.892 52.8118C101.082 49.6836 99.2005 46.6403 97.2694 43.6961C103.254 44.3685 108.806 45.3168 113.875 46.4846C112.356 51.4388 110.403 56.7115 107.99 62.2107C106.399 59.0754 104.695 55.933 102.885 52.8118H102.892ZM41.0916 6.85805C42.4689 6.06537 44.0946 5.67612 45.9334 5.67612C52.7985 5.67612 62.5745 11.147 73.0674 21.4517C68.3747 26.4484 63.753 32.1528 59.3513 38.3809C51.7336 39.0604 44.4709 40.1998 37.7903 41.7569C33.0976 23.7519 34.5672 10.6162 41.0987 6.85805H41.0916ZM5.67957 68C5.67957 60.4838 16.35 52.642 34.34 47.6878C36.3278 54.2415 38.9759 61.0783 42.192 68C38.9759 74.9217 36.3278 81.7585 34.34 88.3122C16.35 83.358 5.67957 75.5163 5.67957 68ZM41.0916 129.142C34.5601 125.384 33.0905 112.248 37.7832 94.2431C44.4709 95.8002 51.7336 96.9326 59.3442 97.6191C63.7459 103.854 68.3605 109.552 73.0532 114.548C59.756 127.599 47.6159 132.9 41.0845 129.142H41.0916ZM111.908 129.142C105.377 132.9 93.2298 127.599 79.9397 114.548C84.6324 109.552 89.2542 103.854 93.6558 97.6191C101.274 96.9396 108.536 95.8002 115.217 94.2431C119.91 112.248 118.44 125.384 111.908 129.142ZM118.66 88.3122C116.672 81.7585 114.024 74.9217 110.808 68C114.024 61.0783 116.672 54.2415 118.66 47.6878C136.65 52.642 147.32 60.4838 147.32 68C147.32 75.5163 136.65 83.358 118.66 88.3122Z" fill="#61DAFB" stroke="#231F20" stroke-width="2" stroke-miterlimit="10"/>
           </svg>
         </div>
-        <svg class="decoration-sparkle w-6 h-6 hidden md:block" viewBox="0 0 100 100" fill="none">
+        <svg class="decoration-sparkle w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" viewBox="0 0 100 100" fill="none">
           <path d="M50 0C50 27.6 72.4 50 100 50C72.4 50 50 72.4 50 100C50 72.4 27.6 50 0 50C27.6 50 50 27.6 50 0Z" fill="#61dafb"/>
         </svg>
       </div>
@@ -89,23 +96,23 @@ const techLogos = [
 
   {data.id === 'mentor' && (
     <>
-      <div class="absolute top-[12%] md:top-[10%] left-1/2 -translate-x-1/2 pointer-events-none">
+      <div class="absolute top-[10%] sm:top-[12%] md:top-[10%] left-1/2 -translate-x-1/2 pointer-events-none">
         <div class="decoration-icon" data-icon="GraduationCap">
-          <GraduationCap size={140} class="w-[120px] h-[80px] md:w-[180px] md:h-[120px]" />
+          <GraduationCap class="w-[137px] h-[80px] sm:w-[172px] sm:h-[100px] md:w-[240px] md:h-[140px] lg:w-[309px] lg:h-[180px]" />
         </div>
       </div>
 
-      <div class="decoration-icon absolute top-[50%] right-[15%] md:right-[25%] pointer-events-none" data-icon="Cursor">
-        <Cursor size={70} class="w-[50px] h-[65px] md:w-[70px] md:h-[90px]" />
+      <div class="decoration-icon absolute top-[45%] sm:top-[50%] right-[8%] sm:right-[15%] md:right-[25%] pointer-events-none" data-icon="Cursor">
+        <Cursor class="w-[26px] h-[35px] sm:w-[34px] sm:h-[45px] md:w-[41px] md:h-[55px] lg:w-[52px] lg:h-[70px]" />
       </div>
 
-      <div class="decoration-cross absolute top-[35%] right-[30%] pointer-events-none hidden lg:block">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <div class="decoration-cross absolute top-[32%] sm:top-[35%] right-[20%] sm:right-[30%] pointer-events-none">
+        <svg viewBox="0 0 28 28" fill="none" class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-7 lg:h-7">
           <path d="M14 0V28M0 14H28" stroke="#eeb700" stroke-width="3" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="decoration-cross absolute top-[55%] left-[20%] pointer-events-none hidden lg:block">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <div class="decoration-cross absolute top-[52%] sm:top-[55%] left-[10%] sm:left-[20%] pointer-events-none">
+        <svg viewBox="0 0 24 24" fill="none" class="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6">
           <path d="M12 0V24M0 12H24" stroke="#eeb700" stroke-width="2.5" stroke-linecap="round"/>
         </svg>
       </div>
@@ -114,33 +121,41 @@ const techLogos = [
 
   {data.id === 'skills' && (
     <>
-      <div class="tech-logos hidden lg:block">
-        {techLogos.map((logo, i) => (
+      <div class="tech-logos-mobile md:hidden">
+        {techLogosMobile.map((logo, i) => (
           <div class={`decoration-tech-logo absolute pointer-events-none ${logo.class}`} data-index={i}>
             <img src={logo.src} alt={logo.alt} class="w-full h-auto object-contain" loading="lazy" />
           </div>
         ))}
       </div>
 
-      <div class="decoration-bracket absolute top-[42%] left-[10%] md:left-[20%] lg:left-[28%] font-display text-[80px] md:text-[120px] text-[#feb25e] pointer-events-none hidden md:block">
+      <div class="tech-logos-desktop hidden md:block">
+        {techLogosDesktop.map((logo, i) => (
+          <div class={`decoration-tech-logo absolute pointer-events-none ${logo.class}`} data-index={i}>
+            <img src={logo.src} alt={logo.alt} class="w-full h-auto object-contain" loading="lazy" />
+          </div>
+        ))}
+      </div>
+
+      <div class="decoration-bracket absolute top-[38%] sm:top-[42%] left-[5%] sm:left-[10%] md:left-[20%] lg:left-[28%] font-display text-[40px] sm:text-[60px] md:text-[80px] lg:text-[120px] text-[#feb25e] pointer-events-none">
         &lt;
       </div>
-      <div class="decoration-bracket absolute top-[48%] right-[10%] md:right-[18%] lg:right-[25%] font-display text-[80px] md:text-[120px] text-[#feb25e] pointer-events-none hidden md:block">
+      <div class="decoration-bracket absolute top-[44%] sm:top-[48%] right-[5%] sm:right-[10%] md:right-[18%] lg:right-[25%] font-display text-[40px] sm:text-[60px] md:text-[80px] lg:text-[120px] text-[#feb25e] pointer-events-none">
         /&gt;
       </div>
     </>
   )}
 
-  <div class="relative z-10 flex flex-col items-center justify-center h-full px-6">
+  <div class="relative z-10 flex flex-col items-center justify-center h-full px-4 sm:px-6">
     {(data.id === 'role' || data.id === 'mentor') && (
-      <div class="h-[60px] md:h-[100px]"></div>
+      <div class="h-[40px] sm:h-[60px] md:h-[80px] lg:h-[100px]"></div>
     )}
 
     <div class="text-center overflow-hidden">
       <h1 class="hero-title font-display font-normal text-brand-brown leading-none tracking-normal text-center">
         {data.titleLines.map((line) => (
           <span class="title-line block overflow-hidden">
-            <span class="title-text inline-block text-[clamp(3rem,10vw,128px)]">{line}</span>
+            <span class="title-text inline-block text-[clamp(2.5rem,9vw,128px)]">{line}</span>
           </span>
         ))}
       </h1>
@@ -148,8 +163,8 @@ const techLogos = [
 
     <p
       class:list={[
-        'hero-subtitle mt-8 md:mt-10 text-center font-sans font-normal text-[16px] md:text-[20px] leading-[1.2] tracking-normal',
-        data.id === 'skills' ? 'text-brand-dark max-w-[845px] px-4' : 'text-brand-dark max-w-[340px] md:max-w-[666px]',
+        'hero-subtitle mt-6 sm:mt-8 md:mt-10 text-center font-sans font-normal text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] leading-[1.3] sm:leading-[1.2] tracking-normal',
+        data.id === 'skills' ? 'text-brand-dark max-w-[90%] sm:max-w-[600px] md:max-w-[750px] lg:max-w-[845px]' : 'text-brand-dark max-w-[280px] sm:max-w-[340px] md:max-w-[500px] lg:max-w-[666px]',
       ]}
     >
       {data.subtitle}
@@ -159,8 +174,8 @@ const techLogos = [
   {data.backgroundText?.map((hint) => (
     <div
       class:list={[
-        'bg-text hidden xl:block absolute top-1/2 -translate-y-1/2 font-display font-normal text-[80px] 2xl:text-[128px] leading-none tracking-normal whitespace-nowrap pointer-events-none select-none',
-        hint.side === 'left' ? 'left-[-200px] 2xl:left-[-280px]' : 'right-[-200px] 2xl:right-[-280px]',
+        'bg-text hidden xl:block absolute top-1/2 -translate-y-1/2 font-display font-normal text-[60px] xl:text-[80px] 2xl:text-[128px] leading-none tracking-normal whitespace-nowrap pointer-events-none select-none',
+        hint.side === 'left' ? 'left-[-150px] xl:left-[-200px] 2xl:left-[-280px]' : 'right-[-150px] xl:right-[-200px] 2xl:right-[-280px]',
       ]}
       style="color: rgba(103, 52, 55, 0.08);"
       aria-hidden="true"

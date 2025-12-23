@@ -8,20 +8,23 @@ interface Props {
   variant?: 'default' | 'white';
 }
 
-const { class: className = '', size = 36, variant = 'default' } = Astro.props;
-const width = Math.round(size * (31 / 36));
+const { class: className = '', size, variant = 'default' } = Astro.props;
 
 const headColor = variant === 'white' ? 'white' : '#231F20';
 const eyeColor = variant === 'white' ? '#231F20' : '#231F20';
+
+// Only set explicit dimensions if size is provided
+const svgWidth = size ? Math.round(size * (31 / 36)) : undefined;
+const svgHeight = size;
 ---
 
 <svg
-  width={width}
-  height={size}
+  width={svgWidth}
+  height={svgHeight}
   viewBox="0 0 31 36"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
-  class={className}
+  class:list={[className, !size && 'w-full h-full']}
   aria-label="Tania Tello Logo"
 >
   <!-- Head base -->
