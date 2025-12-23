@@ -17,35 +17,35 @@ const { autoPlayInterval = 5000 } = Astro.props;
   <!-- Back Link -->
   <a
     href="/about#brain-section"
-    class="absolute top-[100px] md:top-[120px] left-[50px] md:left-[80px] lg:left-[83px] z-30 text-[#673437] hover:opacity-70 transition-opacity flex items-center gap-2"
-    style="font-family: 'Stacion', serif; font-weight: 400; font-size: 24px; line-height: 110%; letter-spacing: 0px;"
+    class="absolute top-[80px] md:top-[120px] left-[20px] md:left-[80px] lg:left-[83px] z-30 text-[#673437] hover:opacity-70 transition-opacity flex items-center gap-2 text-[18px] md:text-[20px] lg:text-[24px]"
+    style="font-family: 'Stacion', serif; font-weight: 400; line-height: 110%; letter-spacing: 0px;"
   >
     <span>←</span> <span class="underline">back</span>
   </a>
 
   <!-- My Hobbies Label with Penguin -->
-  <div class="absolute top-[150px] md:top-[180px] lg:top-[200px] left-[50px] md:left-[80px] lg:left-[83px] z-20">
-    <div class="flex items-center gap-2">
-      <span class="text-[48px] md:text-[72px] lg:text-[96px] font-display font-normal text-[#F5909A] leading-[110%] tracking-[0px]" style="background-blend-mode: multiply;">My</span>
+  <div class="absolute top-[120px] md:top-[180px] lg:top-[200px] left-[20px] md:left-[80px] lg:left-[83px] z-20">
+    <div class="flex items-center gap-1 md:gap-2">
+      <span class="text-[36px] md:text-[72px] lg:text-[96px] font-display font-normal text-[#F5909A] leading-[110%] tracking-[0px]" style="background-blend-mode: multiply;">My</span>
       <span class="penguin-mini inline-flex items-center">
-        <PenguinLogo width={110} height={82} class="w-16 md:w-20 lg:w-[110px]" />
+        <PenguinLogo width={110} height={82} class="w-10 md:w-20 lg:w-[110px]" />
       </span>
     </div>
-    <span class="text-[48px] md:text-[72px] lg:text-[96px] font-display font-normal text-[#F5909A] leading-[110%] tracking-[0px] block" style="background-blend-mode: multiply;">Hobbies</span>
+    <span class="text-[36px] md:text-[72px] lg:text-[96px] font-display font-normal text-[#F5909A] leading-[110%] tracking-[0px] block" style="background-blend-mode: multiply;">Hobbies</span>
   </div>
 
-  <!-- Circle Decoration - positioned like in design (right side) -->
+  <!-- Circle Decoration - positioned like in design (right side, hidden on mobile) -->
   <div
-    class="absolute right-[-200px] md:right-[-100px] lg:right-[-50px] top-[15%] w-[600px] h-[600px] md:w-[700px] md:h-[700px] lg:w-[800px] lg:h-[800px] rounded-full bg-[#F7EBEC] pointer-events-none"
+    class="hidden md:block absolute right-[-200px] md:right-[-100px] lg:right-[-50px] top-[15%] w-[600px] h-[600px] md:w-[700px] md:h-[700px] lg:w-[800px] lg:h-[800px] rounded-full bg-[#F7EBEC] pointer-events-none"
     aria-hidden="true"
   ></div>
 
   <!-- Ghost Text Top (Previous Hobby) - Inside centered container -->
-  <div class="absolute top-[60px] md:top-[75px] lg:top-[85px] left-0 right-0 z-5">
-    <div class="w-full max-w-[1440px] mx-auto px-[50px] md:px-[80px] lg:px-[83px]">
+  <div class="absolute top-[40px] md:top-[75px] lg:top-[85px] left-0 right-0 z-5 hidden md:block">
+    <div class="w-full max-w-[1440px] mx-auto px-[20px] md:px-[80px] lg:px-[83px]">
       <div
         id="ghost-top"
-        class="pl-[280px] md:pl-[350px] lg:pl-[430px] text-[100px] md:text-[140px] lg:text-[170px] font-display font-normal text-[#673437] select-none pointer-events-none leading-[110%] tracking-[1px] opacity-10 whitespace-nowrap"
+        class="pl-[120px] md:pl-[350px] lg:pl-[430px] text-[60px] md:text-[140px] lg:text-[170px] font-display font-normal text-[#673437] select-none pointer-events-none leading-[110%] tracking-[1px] opacity-10 whitespace-nowrap"
         aria-hidden="true"
       >
         {hobbies[hobbies.length - 1].title}
@@ -54,11 +54,11 @@ const { autoPlayInterval = 5000 } = Astro.props;
   </div>
 
   <!-- Ghost Text Bottom (Next Hobby) - Inside centered container -->
-  <div class="absolute bottom-[30px] md:bottom-[40px] lg:bottom-[50px] left-0 right-0 z-5">
-    <div class="w-full max-w-[1440px] mx-auto px-[50px] md:px-[80px] lg:px-[83px]">
+  <div class="absolute bottom-[20px] md:bottom-[40px] lg:bottom-[50px] left-0 right-0 z-5 hidden md:block">
+    <div class="w-full max-w-[1440px] mx-auto px-[20px] md:px-[80px] lg:px-[83px]">
       <div
         id="ghost-bottom"
-        class="pl-[280px] md:pl-[350px] lg:pl-[430px] text-[100px] md:text-[140px] lg:text-[170px] font-display font-normal text-[#673437] select-none pointer-events-none leading-[110%] tracking-[1px] opacity-10 whitespace-nowrap"
+        class="pl-[120px] md:pl-[350px] lg:pl-[430px] text-[60px] md:text-[140px] lg:text-[170px] font-display font-normal text-[#673437] select-none pointer-events-none leading-[110%] tracking-[1px] opacity-10 whitespace-nowrap"
         aria-hidden="true"
       >
         {hobbies[1].title}
@@ -66,8 +66,8 @@ const { autoPlayInterval = 5000 } = Astro.props;
     </div>
   </div>
 
-  <!-- Floating Clouds (visible on travel slide) -->
-  <div id="floating-clouds" class="absolute inset-0 pointer-events-none z-15 opacity-0" data-hobby="travel">
+  <!-- Floating Clouds (visible on travel slide, hidden on mobile) -->
+  <div id="floating-clouds" class="hidden md:block absolute inset-0 pointer-events-none z-15 opacity-0" data-hobby="travel">
     <!-- Cloud 1 - top right (larger cloud) -->
     <svg class="cloud-float absolute top-[180px] md:top-[220px] lg:top-[260px] right-[80px] md:right-[180px] lg:right-[280px] w-[140px] md:w-[160px] lg:w-[177px]" viewBox="0 0 177 62" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clip-path="url(#clip0_cloud1)">
@@ -93,18 +93,18 @@ const { autoPlayInterval = 5000 } = Astro.props;
   </div>
 
   <!-- Main Content Container -->
-  <div class="relative z-10 flex items-center min-h-screen pt-[220px] md:pt-[240px] lg:pt-[260px] pb-[150px] md:pb-[200px]">
-    <div class="w-full max-w-[1440px] mx-auto px-[50px] md:px-[80px] lg:px-[83px]">
+  <div class="relative z-10 flex items-center min-h-screen pt-[200px] md:pt-[240px] lg:pt-[260px] pb-[100px] md:pb-[200px]">
+    <div class="w-full max-w-[1440px] mx-auto px-[20px] md:px-[80px] lg:px-[83px]">
       <div class="flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-16">
         <!-- Text Content -->
-        <div class="relative min-h-[200px] md:min-h-[250px] lg:min-h-[300px] w-full lg:w-[60%]">
+        <div class="relative min-h-[280px] md:min-h-[250px] lg:min-h-[300px] w-full lg:w-[60%]">
           {hobbies.map((hobby, index) => (
             <div
-              class="hobby-content absolute top-0 left-0 w-full pl-[280px] md:pl-[350px] lg:pl-[430px]"
+              class="hobby-content absolute top-0 left-0 w-full pl-0 md:pl-[350px] lg:pl-[430px]"
               data-hobby-index={index}
               data-active={index === 0 ? 'true' : 'false'}
             >
-              <h2 class="hobby-title text-[80px] md:text-[130px] lg:text-[170px] font-display font-normal text-[#673437] leading-[110%] tracking-[1px] mb-4 md:mb-6 relative inline-block">
+              <h2 class="hobby-title text-[48px] md:text-[130px] lg:text-[170px] font-display font-normal text-[#673437] leading-[110%] tracking-[1px] mb-3 md:mb-6 relative inline-block">
                 {hobby.title}
                 {hobby.hasUnderline && (
                   <span
@@ -113,15 +113,15 @@ const { autoPlayInterval = 5000 } = Astro.props;
                   ></span>
                 )}
               </h2>
-              <p class="hobby-description text-[16px] md:text-[18px] lg:text-[20px] text-[#2E4458] w-[320px] md:w-[480px] lg:w-[636px] leading-[140%] tracking-[1px] font-sans font-normal text-justify">
+              <p class="hobby-description text-[14px] md:text-[18px] lg:text-[20px] text-[#2E4458] w-full md:w-[480px] lg:w-[636px] leading-[140%] tracking-[1px] font-sans font-normal text-justify pr-4 md:pr-0">
                 {hobby.description}
               </p>
             </div>
           ))}
         </div>
 
-        <!-- Illustration Container - Right side -->
-        <div class="relative h-[300px] md:h-[400px] lg:h-[500px] w-full lg:w-[40%] flex items-center justify-end lg:justify-center">
+        <!-- Illustration Container - Right side (hidden on mobile) -->
+        <div class="hidden md:flex relative h-[300px] md:h-[400px] lg:h-[500px] w-full lg:w-[40%] items-center justify-end lg:justify-center">
           {hobbies.map((hobby, index) => (
             <div
               class="hobby-illustration absolute inset-0 flex items-center justify-center"
